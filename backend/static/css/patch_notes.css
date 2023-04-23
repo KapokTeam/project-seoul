@@ -11,7 +11,17 @@
 
 body {
     background-color: white;
+    min-height: fit-content;
 }
+
+main {
+    height: 50vh;
+}
+
+footer {
+    height: 10vh;
+}
+
 #logo{
     margin: 0 auto;
     display: block;
@@ -79,6 +89,7 @@ body {
 
     .version{
         /* font-size: 4vw; */ /* 3.9184952978056424vw */
+        width: 32vw;
         font-size: 7.8vw;
         margin-left: 3rem;
         margin-bottom: 1.3vw;
@@ -125,6 +136,7 @@ body {
 
     .version{
         /* font-size: 4vw; */ /* 54 35  3.9184952978056424vw */
+        width: 16vw;
         font-size: 3.9vw;
         margin-left: 3rem;
         margin-bottom: 0.7vw;
@@ -171,6 +183,7 @@ body {
 
     .version{
         /* font-size: 4vw; 55 31*/ /* 3.9184952978056424vw */
+        width: 14vw;
         font-size: 3.4vw;
         margin-left: 6.7vw;
         margin-bottom: 0.5vw;

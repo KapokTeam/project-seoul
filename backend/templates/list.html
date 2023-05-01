@@ -3,7 +3,7 @@
 
 <head>
   <title>Home</title>
-  <link rel="stylesheet" href="../static/css/home.css">
+  <link rel="stylesheet" href="../static/css/list.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.11.0/lottie.min.js" integrity="sha512-XCthc/WzPfa+oa49Z3TI6MUK/zlqd67KwyRL9/R19z6uMqBNuv8iEnJ8FWHUFAjC6srr8w3FMZA91Tfn60T/9Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
@@ -26,38 +26,8 @@
     </ul>
   </header>
   <main>
-    <h1>SEOUL DATA COMPETITION</h1>
-    <h2>1. 위도 & 경도 출력</h2>
-    <div id="geo"></div>
-    <div class="card">
-      <div class="card-text">
-        <span class="date">1991</span> 
-        <h2>Lorem</h2> 
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur hendrerit mauris a massa elementum, quis vulputate augue imperdiet.</p>
-      </div>
-      <!--작품위치 or detail이동버튼 or 좋아요,댓글,방문사진 넣으러가기-->
-      <div class="card-button">
-        <button>Go Detail</button>
-      </div>
-      <div class="card-stats">
-        <div class="stat">
-          <div class="value">4m</div>
-          <div class="type">read</div>
-        </div>
-      </div>
-      <div class="card-stats">
-        <div class="stat">
-          <div class="value">5123</div>
-          <div class="type">views</div>
-        </div>
-      </div>
-      <div class="card-stats">
-        <div class="stat">
-          <div class="value">32</div>
-          <div class="type">comments</div>
-        </div>
-      </div>
-    </div>
+    <h1>List Function</h1>
+    <div id="data"></div>
   </main>
   <footer>
     <div>Follow US</div>
@@ -76,18 +46,16 @@
         path: 'https://assets6.lottiefiles.com/temp/lf20_92d2Bu.json' // the path to the animation json
     });
   </script>
-
   <script>
 		window.addEventListener("load", function () {
 			document.querySelector(".loader").className = 'loaded';
 		});
 	</script>
-
   <script>
-    fetch('/around')
+    fetch('/getdata')
       .then(response => response.text())
       .then(data => {
-        document.querySelector('#geo').textContent = data;
+        document.querySelector('#data').textContent = data;
       });
   </script>
 </body>

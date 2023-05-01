@@ -137,99 +137,8 @@ footer > div:last-child > svg{
     fill: rgb(125, 125, 255);
 }
 
-#logo2{
-    margin: 0 auto;
-    display: block;
-}
-
-.nav-divide{
-    
-}
-
-.content-block{
-    
-}
-
-.major-headings{
-
-}
-
-.major-headings::after{
-    content: '';
-    display: block;
-    clear: both;
-}
-
-.version{
-    color: black;
-    font-family: 'EB Garamond', serif;
-    font-family: 'Roboto', sans-serif;
-    float: left;
-}
-
-.date{
-    color: gray;
-    float: left;
-}
-
-.content-block-divide{
-
-}
-
-.patch-list{
-    list-style: disc;
-}
-
-.patch-list-content{
-    color: black;
-}
-
-@media (max-width:767px) {
-    #logo2{
-        margin-top: 10.9vw;
-        width: 35.9vw;
-    }
-
-    .nav-divide{
-        margin-top: 5.6vw;
-    }
-
-    .content-block{
-        margin-top: 12.8vw;
-    }
-    
-    .major-headings{
-
-    }
-
-    .version{
-        /* font-size: 4vw; */ /* 3.9184952978056424vw */
-        width: 32vw;
-        font-size: 7.8vw;
-        margin-left: 3rem;
-        margin-bottom: 1.3vw;
-    }
-    
-    .date{
-        font-size: 3.1vw; /* 1.567398119122257vw */
-        margin-left: 2.3rem;
-        padding-top: 5.9vw;
-    }
-    
-    .content-block-divide{
-        width: 70vw; /* 10.9717868338558vw */
-    }
-    
-    .patch-list{
-        margin-left: 9.4vw; /* 수정 요함 */
-        margin-top: 4.1vw;
-    }
-
-    .patch-list-content{
-        font-size: 3.1vw; /* 1.567398119122257vw */
-        margin-left: 7.8vw;
-    }
-
+/* 모바일 기기 */
+@media only screen and (max-width: 767px) {
     #logo {
         width: 15vw;
         margin: 0 1.5vw;
@@ -253,54 +162,9 @@ footer > div:last-child > svg{
     #animContainer{
         width: 20vw;
     }
-}
-
-@media (min-width:768px) and (max-width:1023px) {
-    #logo2{
-        margin-top: 1.4vw;
-        width: 34.8vw;
-    }
-
-    .nav-divide{
-        margin-top: 3.5vw;
-    }
-
-    .content-block{
-        margin-top: 4.6vw;
-    }
-    
-    .major-headings{
-
-    }
-
-    .version{
-        /* font-size: 4vw; */ /* 54 35  3.9184952978056424vw */
-        width: 16vw;
-        font-size: 3.9vw;
-        margin-left: 3rem;
-        margin-bottom: 0.7vw;
-    }
-    
-    .date{
-        font-size: 1.6vw; /* 148 132 1.567398119122257vw */
-        margin-left: 3.0rem;
-        padding-top: 2.5vw;
-    }
-    
-    .content-block-divide{
-        width: 79.4vw; /* 10.9717868338558vw */
-    }
-    
-    .patch-list{
-        margin-left: 3.9vw; /* 수정 요함 */
-        margin-top: 1.7vw;
-    }
-
-    .patch-list-content{
-        font-size: 1.6vw; /* 1.567398119122257vw */
-        margin-left: 3.9vw;
-    }
-
+  }
+  
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
     #logo {
         width: 12vw;
         margin: 0 1.5vw;
@@ -324,54 +188,9 @@ footer > div:last-child > svg{
     #animContainer{
         width: 15vw;
     }
-}
-
-@media (min-width:1024px) {
-    #logo2{
-        margin-top: 2.0vw;
-        width: 32.8vw;
-    }
-
-    .nav-divide{
-        margin-top: 2.3vw;
-    }
-
-    .content-block{
-        margin-top: 3.0vw;
-    }
-    
-    .major-headings{
-
-    }
-
-    .version{
-        /* font-size: 4vw; 55 31*/ /* 3.9184952978056424vw */
-        width: 14vw;
-        font-size: 3.4vw;
-        margin-left: 6.7vw;
-        margin-bottom: 0.5vw;
-    }
-    
-    .date{
-        font-size: 1.2vw; /* 1.567398119122257vw */
-        margin-left: 2.2vw;
-        padding-top: 2.3vw;
-    }
-    
-    .content-block-divide{
-        width: 81.3vw; /* 10.9717868338558vw */
-    }
-    
-    .patch-list{
-        margin-left: 6.7vw; /* 수정 요함 */
-        margin-top: 2.4vw;
-    }
-
-    .patch-list-content{
-        font-size: 1.2vw; /* 1.567398119122257vw */
-        margin-left: 6.7vw;
-    }
-
+  }
+  
+  @media only screen and (min-width: 1024px) {
     #logo {
         width: 12vw;
         margin: 0 1.5vw;
@@ -390,8 +209,7 @@ footer > div:last-child > svg{
     header {
         box-shadow: 0 8px 8px -8px black;
     }
-    
     #animContainer{
         width: 10vw;
     }
-}
+  }

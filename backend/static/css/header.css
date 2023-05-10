@@ -1,0 +1,111 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    /* border: 1px solid black; */
+    /* background: #9D50BB;  
+    background: -webkit-linear-gradient(to right, #6E48AA, #9D50BB);  
+    background: linear-gradient(to right, #6E48AA, #9D50BB);  */
+}
+
+header>ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-family: 'EB Garamond', serif;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+}
+
+header>ul>a>li {
+    list-style: none;
+}
+
+header>ul>a:link {
+    color: black;
+    text-decoration-line: none;
+}
+  
+/* visited link */
+header>ul>a:visited {
+    color: black;
+    text-decoration-line: none;
+}
+
+/* mouse over link */
+header>ul>a:hover {
+    color: black;
+    text-shadow: -1px 0px #fdfd96, 0px 1px #fdfd96, 1px 0px #fdfd96, 0px -1px #fdfd96;
+    text-decoration-line: none;
+}
+
+/* selected link */
+header>ul>a:active {
+    color: black;
+    text-decoration-line: none;
+}
+
+@media only screen and (max-width: 767px) {
+    #logo {
+        width: 15vw;
+        margin: 0 1.5vw;
+        margin-top: 0.5vh;
+    }
+
+    header ul:nth-child(2) a li {
+        margin: 0 2vw;
+        font-size: 1.8vw;
+    }
+
+    header ul:last-child a li {
+        margin: 0 2vw;
+        font-size: 1.8vw;
+    }
+
+    header {
+        box-shadow: 0 4px 4px -4px black;
+    }
+  }
+  
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+    #logo {
+        width: 12vw;
+        margin: 0 1.5vw;
+        margin-top: 0.5vh;
+    }
+
+    header ul:nth-child(2) a li {
+        margin: 0 2vw;
+        font-size: 1.2vw;
+    }
+
+    header ul:last-child a li {
+        margin: 0 2vw;
+        font-size: 1.2vw;
+    }
+
+    header {
+        box-shadow: 0 6px 6px -6px black;
+    }
+  }
+  
+  @media only screen and (min-width: 1024px) {
+    #logo {
+        width: 12vw;
+        margin: 0 1.5vw;
+        margin-top: 0.5vh;
+    }
+
+    header ul:nth-child(2) a li {
+        margin: 0 2vw;
+        font-size: 1.4vw;
+    }
+
+    header ul:last-child a li {
+        margin: 0 2vw;
+        font-size: 1.4vw;
+    }   
+    header {
+        box-shadow: 0 8px 8px -8px black;
+    }
+  }

@@ -1,0 +1,54 @@
+footer {
+    background-color: #22263f;
+    padding: 2vw 0;
+}
+
+footer>div {
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-family: 'EB Garamond', serif;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 1.5vw;
+}
+
+footer>div:last-child>svg {
+    margin: 0;
+    padding: 0;
+}
+
+#pinterest_svg {
+    width: 4.3vw;
+}
+
+#pinterest {
+    fill: bisque;
+}
+
+#pinterest:hover {
+    fill: red;
+}
+
+#kapok {
+    margin: 1.5vw 3vw;
+    width: 4.3vw;
+}
+
+#github_svg {
+    width: 3.8vw;
+}
+
+#github {
+    fill: bisque;
+}
+
+#github:hover {
+    fill: rgb(125, 125, 255);
+}
+
+@media only screen and (max-width: 767px) {}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {}
+
+@media only screen and (min-width: 1024px) {}

@@ -16,3 +16,4 @@ selenium
 pandas
 geopy
 firebase-admin
+xmltodict

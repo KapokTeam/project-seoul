@@ -3,15 +3,12 @@
 
 <head>
   <title>SignUp</title>
-  <link rel="stylesheet" href="../static/css/signup.css">
+  <link rel="stylesheet" href="../static/css/login.css">
   <link rel="stylesheet" href="../static/css/header.css">
   <link rel="stylesheet" href="../static/css/footer.css">
   <link rel="stylesheet" href="../static/css/loader.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.11.0/lottie.min.js"
     integrity="sha512-XCthc/WzPfa+oa49Z3TI6MUK/zlqd67KwyRL9/R19z6uMqBNuv8iEnJ8FWHUFAjC6srr8w3FMZA91Tfn60T/9Q=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
-    integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 
@@ -35,7 +32,7 @@
       </a>
     </ul>
     <ul>
-      <a href="{{ url_for('patch') }}">
+      <a href="{{ url_for('login') }}">
         <li>Login</li>
       </a>
       <a href="{{ url_for('signup') }}">
@@ -124,7 +121,7 @@
   <script>
     let urlParams = new URLSearchParams(window.location.search);
     let alertdata = urlParams.get('alertdata');
-    if (alertdata == true) {
+    if (alertdata == 'true' || alertdata == 'True') {
       alert("회원가입에 실패했습니다.")
     }
   </script>

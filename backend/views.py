@@ -5,7 +5,6 @@ import json
 from config import firebase_admin
 from firebase_admin import db
 import random
-from bs4 import BeautifulSoup
 import xmltodict
 import math
 

@@ -22,7 +22,7 @@ def list():
             firstpage = True
         else:
             page = int(page)
-
+ 
         page = int(page)
 
         search = request.args.get('searchquery') 

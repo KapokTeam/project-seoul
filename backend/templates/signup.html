@@ -132,8 +132,8 @@
     let nickname = document.getElementById("nickname")
     let label
     const hangeul = /[ㄱ-ㅎㅏ-ㅣ가-힣]/g;
-    let idExist = true
-    let pwExist = true
+    const alphabet = /^[a-zA-Z]+$/;
+    let idExist = false
 
     id.addEventListener("blur", e => {
       const data = { id: id.value };
@@ -156,35 +156,42 @@
         .catch(error => console.error(error));
     });
 
-    document.getElementById("password").addEventListener("blur", e => {
-      const data = { pw: password.value };
-
-      fetch('/checkpw', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-        .then(response => response.text())
-        .then(data => {
-          if (data == 'true' || data == 'True') {
-            pwExist = true
-          } else {
-            pwExist = false
-          }
-        })
-        .catch(error => console.error(error));
-    });
+    //document.getElementById("password").addEventListener("blur", e => {
+    //  const data = { pw: password.value };
+//
+    //  fetch('/checkpw', {
+    //    method: 'POST',
+    //    headers: {
+    //      'Content-Type': 'application/json'
+    //    },
+    //    body: JSON.stringify(data)
+    //  })
+    //    .then(response => response.text())
+    //    .then(data => {
+    //      if (data == 'true' || data == 'True') {
+    //        pwExist = true
+    //      } else {
+    //        pwExist = false
+    //      }
+    //    })
+    //    .catch(error => console.error(error));
+    //});
 
     // 회원가입 버튼을 눌렀을 때.
     // 빈 값, null값, 길이, 한글, DB 중복 
     document.getElementById("submit").onclick = function () {
+      id.setCustomValidity('');
+      password.setCustomValidity('');
+      password_confirm.setCustomValidity('');
+      nickname.setCustomValidity('');
+      email.setCustomValidity('');
       // 빈 값 체크
       // 이메일은 당장 중요한 건 아님. @gmail.com 이런거 select 및 번호인증 등. X 이메일은 DB중복이나 인증은 없게끔. 
       if (id.value == null || id.value.replace(" ", "") == '') {
         id.setCustomValidity("아이디를 넣어주세요");
         id.reportValidity()
+        
+        console.log("here1")
 
         id.nextElementSibling.className = 'warning'
         // id.nextElementSibling.classList.add('warning')
@@ -195,9 +202,75 @@
 
         return false
       }
+      else if (id.value.replace(" ", "").length < 8 || id.value.replace(" ", "").length > 15) {
+        id.setCustomValidity("아이디는 8 ~ 15자 사이입니다.");
+        id.reportValidity()
+
+        console.log("here2")
+
+        id.nextElementSibling.className = 'warning'
+
+        setTimeout(() => {
+          id.nextElementSibling.classList.remove('warning')
+        }, 1500);
+
+        return false
+      }
+      else if (hangeul.test(id.value)) {
+        id.setCustomValidity("영문으로 작성해주세요.");
+        id.reportValidity()
+
+        console.log("here3")
+
+        id.nextElementSibling.className = 'warning'
+
+        setTimeout(() => {
+          id.nextElementSibling.classList.remove('warning')
+        }, 1500);
+
+        return false
+      }
+      else if (idExist == true) {
+        id.setCustomValidity("이미 존재하는 아이디입니다.");
+        id.reportValidity()
+
+        console.log("here4")
+
+        return false
+      }
       else if (password.value == null || password.value.replace(" ", "") == '') {
         password.setCustomValidity("비밀번호를 넣어주세요");
         password.reportValidity()
+
+        console.log("here5")
+        
+        password.nextElementSibling.className = 'warning'
+
+        setTimeout(() => {
+          password.nextElementSibling.classList.remove('warning')
+        }, 1500);
+
+        return false
+      }
+      else if (password.value.replace(" ", "").length < 8 || password.value.replace(" ", "").length > 15) {
+        password.setCustomValidity("비밀번호는 8 ~ 15자 사이입니다.");
+        password.reportValidity()
+
+        console.log("here6")
+
+        password.nextElementSibling.className = 'warning'
+
+        setTimeout(() => {
+          password.nextElementSibling.classList.remove('warning')
+        }, 1500);
+
+        return false
+      }
+      else if (hangeul.test(password.value)) {
+        password.setCustomValidity("영문으로 작성해주세요.");
+        password.reportValidity()
+
+        console.log("here7")
 
         password.nextElementSibling.className = 'warning'
 
@@ -211,6 +284,8 @@
         password_confirm.setCustomValidity("비밀번호를 한 번 더 넣어주세요");
         password_confirm.reportValidity()
 
+        console.log("here8")
+
         password_confirm.nextElementSibling.className = 'warning'
 
         setTimeout(() => {
@@ -219,27 +294,16 @@
 
         return false
       }
-      // 길이 체크
-      else if (id.value.replace(" ", "").length < 8 || id.value.replace(" ", "").length > 15) {
-        id.setCustomValidity("아이디는 8 ~ 15자 사이입니다.");
-        id.reportValidity()
+      else if (password.value != password_confirm.value) {
+        password_confirm.setCustomValidity("비밀번호가 일치하지 않습니다.");
+        password_confirm.reportValidity()
 
-        id.nextElementSibling.className = 'warning'
+        console.log("here8")
 
-        setTimeout(() => {
-          id.nextElementSibling.classList.remove('warning')
-        }, 1500);
-
-        return false
-      }
-      else if (password.value.replace(" ", "").length < 8 || password.value.replace(" ", "").length > 15) {
-        password.setCustomValidity("비밀번호는 8 ~ 15자 사이입니다.");
-        password.reportValidity()
-
-        password.nextElementSibling.className = 'warning'
+        password_confirm.nextElementSibling.className = 'warning'
 
         setTimeout(() => {
-          password.nextElementSibling.classList.remove('warning')
+          password_confirm.nextElementSibling.classList.remove('warning')
         }, 1500);
 
         return false
@@ -247,6 +311,8 @@
       else if (nickname.value.replace(" ", "").length > 15) {
         nickname.setCustomValidity("닉네임은 15자 이하입니다.");
         nickname.reportValidity()
+
+        console.log("here9")
 
         nickname.nextElementSibling.className = 'warning'
 
@@ -260,73 +326,12 @@
         email.setCustomValidity("이메일은 40자 이하입니다.");
         email.reportValidity()
 
+        console.log("here10")
+        
         email.nextElementSibling.className = 'warning'
 
         setTimeout(() => {
           email.nextElementSibling.classList.remove('warning')
-        }, 1500);
-
-        return false
-      }
-      // 한글 체크
-      else if (hangeul.test(id.value)) {
-        id.setCustomValidity("영문으로 작성해주세요.");
-        id.reportValidity()
-
-        id.nextElementSibling.className = 'warning'
-
-        setTimeout(() => {
-          id.nextElementSibling.classList.remove('warning')
-        }, 1500);
-
-        return false
-      }
-      else if (hangeul.test(password.value)) {
-        password.setCustomValidity("영문으로 작성해주세요.");
-        password.reportValidity()
-
-        password.nextElementSibling.className = 'warning'
-
-        setTimeout(() => {
-          password.nextElementSibling.classList.remove('warning')
-        }, 1500);
-
-        return false
-      }
-      else if (hangeul.test(password_confirm.value)) {
-        password_confirm.setCustomValidity("영문으로 작성해주세요.");
-        password_confirm.reportValidity()
-
-        password_confirm.nextElementSibling.className = 'warning'
-
-        setTimeout(() => {
-          password_confirm.nextElementSibling.classList.remove('warning')
-        }, 1500);
-
-        return false
-      }
-      //DB 중복 체크
-      else if (idExist == true) {
-        id.setCustomValidity("이미 존재하는 아이디입니다.");
-        id.reportValidity()
-
-        return false
-      }
-      else if (pwExist == true) {
-        password.setCustomValidity("이미 존재하는 비밀번호입니다.");
-        password.reportValidity()
-
-        return false
-      }
-      // pw / confirm 비교
-      else if (password.value != password_confirm.value) {
-        password_confirm.setCustomValidity("비밀번호가 일치하지 않습니다.");
-        password_confirm.reportValidity()
-
-        password_confirm.nextElementSibling.className = 'warning'
-
-        setTimeout(() => {
-          password_confirm.nextElementSibling.classList.remove('warning')
         }, 1500);
 
         return false

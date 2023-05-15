@@ -20,10 +20,17 @@
         <a href="{{ url_for('patch') }}"><li>Quiz</li></a>
         <a href="{{ url_for('patch') }}"><li>Patch</li></a>
       </ul>
+      {% if session["nickname"] %}
+      <ul>
+        <a href="{{ url_for('setting') }}"><li>{{session["nickname"]}}</li></a>
+        <a href="{{ url_for('logout') }}"><li>Logout</li></a>
+      </ul>
+      {% else %}
       <ul>
         <a href="{{ url_for('login') }}"><li>Login</li></a>
         <a href="{{ url_for('signup') }}"><li>SignUp</li></a>
       </ul>
+      {% endif %}
     </header>
     <main>
       <img src="../static/img/Toss_Symbol_Primary.png" alt="" id="logo2">

@@ -25,7 +25,7 @@
     </ul>
     {% if session["nickname"] %}
     <ul>
-      <a href="{{ url_for('index') }}"><li>{{session["nickname"]}}</li></a>
+      <a href="{{ url_for('setting') }}"><li>{{session["nickname"]}}</li></a>
       <a href="{{ url_for('logout') }}"><li>Logout</li></a>
     </ul>
     {% else %}

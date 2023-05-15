@@ -21,24 +21,21 @@
   <header>
     <div><a href="{{ url_for('index') }}"><img src="../static/img/YellowBF.png" alt="" id="logo"></a></div>
     <ul>
-      <a href="{{ url_for('list') }}">
-        <li>Art List</li>
-      </a>
-      <a href="{{ url_for('patch') }}">
-        <li>Quiz</li>
-      </a>
-      <a href="{{ url_for('patch') }}">
-        <li>Patch</li>
-      </a>
+      <a href="{{ url_for('list') }}"><li>Art List</li></a>
+      <a href="{{ url_for('patch') }}"><li>Quiz</li></a>
+      <a href="{{ url_for('patch') }}"><li>Patch</li></a>
     </ul>
+    {% if session["nickname"] %}
     <ul>
-      <a href="{{ url_for('login') }}">
-        <li>Login</li>
-      </a>
-      <a href="{{ url_for('signup') }}">
-        <li>SignUp</li>
-      </a>
+      <a href="{{ url_for('setting') }}"><li>{{session["nickname"]}}</li></a>
+      <a href="{{ url_for('logout') }}"><li>Logout</li></a>
     </ul>
+    {% else %}
+    <ul>
+      <a href="{{ url_for('login') }}"><li>Login</li></a>
+      <a href="{{ url_for('signup') }}"><li>SignUp</li></a>
+    </ul>
+    {% endif %}
   </header>
   <main>
     <h1>Sign Up</h1>
@@ -335,7 +332,6 @@
         return false
       }
       else {
-        console.log(password.value + password_confirm.value)
         return true
       }
     }

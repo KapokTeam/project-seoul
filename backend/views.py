@@ -23,14 +23,19 @@ def add_member(id, pw, email, nickname):
 
 
     ref = db.reference('member') # 기본 가장 상단을 가르킴
-    user_ref = ref.push()
-    user_ref.set({
+    #user_ref = ref.push()
+    #user_ref.set({
+    #    'id' : str(id),
+    #    'password' : str(pw),
+    #    'nickname' : str(nickname),
+    #    'email' : str(email)
+    #    })
+    ref.child(str(id)).set({
         'id' : str(id),
         'password' : str(pw),
         'nickname' : str(nickname),
         'email' : str(email)
-        })
-    
+    })
     # ref.update({'id' : 'development'}) # 해당 변수가 없으면 생성한다.
     return True
 
@@ -72,8 +77,10 @@ def validate_PW(pw):
     PWExist = ref.order_by_child('password').equal_to(pw).get()
 
     if PWExist:
+        print(True)
         return 'True'
     else:
+        print(False)
         return 'False'
 
 # def validate_email(email):
@@ -97,6 +104,7 @@ def account_Check(id, pw):
         for key, value in AccountExist.items():
             if value.get('password') == pw:
                 session['nickname'] = value.get('nickname')
+                session['id'] = value.get('id')
                 return True
     else:
         return False

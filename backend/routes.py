@@ -11,6 +11,57 @@ def index():
     # else:
     #     return render_template('home.html')
 
+@application.route('/setting', methods=['GET', 'POST'])
+def setting():
+    if request.method == 'GET':
+        ref = db.reference('member')
+        if 'id' in session:
+            # 세션에 id가 있는 경우 처리할 내용
+            id = session['id']
+            member = ref.order_by_child('id').equal_to(id).get().values()
+            print(member)
+            return render_template('setting.html', user=member)
+        else:
+            # 세션에 id가 없는 경우 처리할 내용
+            return redirect('login')
+    if request.method == 'POST':
+        id = request.form['id']
+        email = request.form['email']
+        nickname = request.form['nickname']
+        ref = db.reference('member')
+
+        # member 레퍼런스에서 특정 id의 정보를 가져옵니다.
+        user = ref.order_by_child('id').equal_to(id).get()
+        for key in user.keys():
+            user_key = key
+            break
+
+        # 특정 id의 'nickname'과 'email'을 변경합니다.
+        ref.child(user_key).update({
+                'nickname': str(nickname),
+            'email': str(email)
+        })
+        session['nickname'] = str(nickname)
+        return redirect('/')
+
+@application.route('/delete', methods=['POST'])
+def delete():
+    data = request.get_json()
+    id = data.get('id')
+
+    ref = db.reference('member')
+    user = ref.order_by_child('id').equal_to(id).get()
+    for key in user.keys():
+        user_key = key
+        break
+
+    ref.child(user_key).delete()    
+
+    session.pop('nickname', None)
+    session.pop('id', None)
+
+    return jsonify(success=True)
+
 @application.route('/list', methods=['GET', 'POST'])
 def list():
     if request.method == 'GET' or request.method == 'POST':
@@ -145,6 +196,7 @@ def login():
 @application.route('/logout', methods=['GET'])
 def logout():
     session.pop('nickname', None)
+    session.pop('id', None)
     return redirect('/')
 
 #멤버 회원가입 조회 => 삽입

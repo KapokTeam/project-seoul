@@ -2,6 +2,7 @@ from backend import application
 from flask import request, render_template, redirect, url_for, jsonify, session
 from backend.views import print_geo_value, get_api_total, add_member, validate_member, validate_ID, validate_PW, account_Check, create_api_data, update_api_data
 from firebase_admin import db
+from datetime import datetime
 
 @application.route('/', methods=['GET'])
 def index():
@@ -10,6 +11,91 @@ def index():
     #     return session['nickname']
     # else:
     #     return render_template('home.html')
+
+@application.route('/around', methods=['POST'])
+def around():
+    address = request.form['address']
+    if address:
+        top = print_geo_value(address)
+        return render_template('around.html', item=top)
+    else:
+        return redirect('/')
+    #return print_geo_value()
+
+@application.route('/detail', methods=['GET'])
+def detail():
+    name = request.args.get('name')
+    name = str(name).replace('/', '_').replace('(', '_').replace(')', '_').replace('.', '_').replace('$', '_').replace('#', '_').replace('[', '_').replace(']', '_')
+    ref = db.reference('piece')
+    piece = ref.order_by_child('name').equal_to(name).get()
+    print(piece)
+    return render_template('detail.html', piece=piece)
+
+@application.route('/quiz', methods=['GET'])
+def quiz():
+    date = datetime.today().strftime("%Y%m%d%H%M%S")
+    question = [["인어공주 동상", "여행자들", "내가 죽기 전에", "프란츠 카프카의 머리", "러버덕"],
+                ["숟가락 다리와 체리", "시리아 이민자의 아들", "7000그루 나무", "클라우드 게이트", "양자 클라우드"],
+                ["모국이 부른다", "풍선과 소녀", "무제", "기울어진 호", "북쪽의 천사"],
+                ["칼레의 시민", "키스", "다윗", "크리스탈 퀼트", "월가 황소상"],
+                ["원반 던지는 사람", "사모트라케의 니케", "호박", "마망", "산타로사"]]
+    images = [url_for('static', filename='img/question/러버덕.jpeg'),
+              url_for('static', filename='img/question/7000나무.jpg'),
+              url_for('static', filename='img/question/북쪽의천사.png'),
+              url_for('static', filename='img/question/크리스탈.jpg'),
+              url_for('static', filename='img/question/호박.jpg')]
+    
+    return render_template('quiz.html', question=question, date=date, images=images)
+
+@application.route('/quizresult', methods=['GET'])
+def quizresult():
+    correct_count = 0
+
+    omr = request.args.get('omr')  # URL의 'omr' 파라미터 값 가져오기
+
+    if not omr:
+        return "퀴즈 응답이 없습니다."
+
+    omr = str(omr).split(",")  # ','로 구분된 문자열을 리스트로 변환
+
+    answer = ["러버덕", "7000그루 나무", "북쪽의 천사", "크리스탈 퀼트", "호박"]
+    length = len(answer)
+
+    if len(omr) != length:
+        # 선택지 개수와 정답 개수가 일치하지 않는 경우에 대한 예외 처리
+        return "퀴즈 응답이 올바르지 않습니다."
+
+    for i in range(length):
+        if omr[i] == answer[i]:
+            correct_count += 20
+
+    ref = db.reference('piece')
+    keys = ref.order_by_key().get()
+    total = len(keys)
+    
+    return render_template('quizresult.html', score=correct_count, total=total)
+
+
+    #if request.method == 'GET':
+    #    score = request.args.get('score', default=0, type=int)
+    #    return render_template('quizresult.html', score=score)
+    #elif request.method == 'POST':
+    #    correct_count = 0
+    #    data = request.get_json()
+    #    omr = data['omr']
+    #    
+    #    answer = ["러버덕", "7000그루 나무", "북쪽의 천사", "크리스탈 퀼트", "호박"]
+    #    length = len(answer)
+#
+    #    for a in range(length):
+    #        if omr[a] == answer[a]:
+    #            correct_count += 20
+#
+    #    # 리디렉션 여부와 점수를 포함한 JSON 응답 전송
+    #    if correct_count == 100:  # 예시: 점수가 100일 때 리디렉션을 지시하는 경우
+    #        return jsonify({'redirect': True, 'score': correct_count})
+    #    else:
+    #        return jsonify({'redirect': False, 'score': correct_count})
 
 @application.route('/setting', methods=['GET', 'POST'])
 def setting():
@@ -263,12 +349,6 @@ def createpiece():
 @application.route('/updatepiece')
 def updatepiece():
     return update_api_data()
-
-
-
-@application.route('/around')
-def around():
-    return print_geo_value()
 
 #멤버 삽입
 @application.route('/fire')

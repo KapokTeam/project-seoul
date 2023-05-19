@@ -265,14 +265,116 @@ def create_api_data():
 
     return "Update"
 
+def distance(lat1, lng1, lat2, lng2):
+    # 지구의 반지름 (단위: km)
+    radius = 6371
+
+    # 각도를 라디안으로 변환
+    lat1_rad = math.radians(lat1)
+    lon1_rad = math.radians(lng1)
+    lat2_rad = math.radians(lat2)
+    lon2_rad = math.radians(lng2)
+
+    # 위도와 경도의 차이 계산
+    delta_lat = lat2_rad - lat1_rad
+    delta_lon = lon2_rad - lon1_rad
+
+    # Haversine 공식 계산
+    a = math.sin(delta_lat / 2) ** 2 + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(delta_lon / 2) ** 2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    distance = radius * c
+
+    return distance
+
 
 def get_geo_value(address):
-    geolocoder = Nominatim(user_agent = 'South Korea', timeout=None)
-    geo = geolocoder.geocode(address)
-    crd = {"lat": str(geo.latitude), "lng": str(geo.longitude)}
+    url = 'https://dapi.kakao.com/v2/local/search/address.json?query=' + address
+    headers = {"Authorization": "KakaoAK da4e662f1d80275b555068f9db84f48a"}
+    response = requests.get(url, headers=headers)
+    api_json = json.loads(response.text)
 
-    return crd
+    if 'documents' in api_json and api_json['documents']:
+        address = api_json['documents'][0]['address']
+        crd = {"lat": str(address['y']), "lng": str(address['x'])}
+        return crd
+    else:
+        return None
 
-def print_geo_value():
-    crd = get_geo_value("서울특별시 마포구 상암동 478-1")
-    return str(crd['lat']) + " & " + str(crd['lng'])
+def print_geo_value(address):
+    rank = []
+    top = []
+
+    crd = get_geo_value(str(address))
+
+    if crd is None:
+        current = "Could not retrieve geolocation for the address."
+    else:
+        current = [crd['lat'], crd['lng']]
+
+    print(current)
+
+    ref = db.reference('piece')
+    data = ref.order_by_child('year')
+
+    for item in data.get().values():
+        address2 = item['address']
+        crd2 = get_geo_value(str(address2))
+        if crd2:
+            dis = distance(float(current[0]), float(current[1]), float(crd2['lat']), float(crd2['lng']))
+            rank.append([item['name'], item['address'], item['year'], dis])
+        else:
+            print(str(item['name']) + ': no lat&lng')
+
+    rank.sort(key=lambda x: x[3])
+    
+    top = [rank[0], rank[1], rank[2]]
+    
+    for i in range(3):
+        top[i][3] = round(top[i][3], 1)
+    
+    print(top)
+
+    return top
+
+#def get_geo_value(address):
+#    url = 'https://dapi.kakao.com/v2/local/search/address.json?query=' + address
+#    headers = {"Authorization": "KakaoAK da4e662f1d80275b555068f9db84f48a"}
+#    api_json = json.loads(str(requests.get(url,headers=headers).text))
+#    address = api_json['documents'][0]['address']
+#    crd = {"lat": str(address['y']), "lng": str(address['x'])}
+#    #address_name = address['address_name']
+#
+#    return crd
+#
+#    #geolocoder = Nominatim(user_agent = 'South Korea', timeout=None)
+#    #geo = geolocoder.geocode(address)
+#    #crd = {"lat": str(geo.latitude), "lng": str(geo.longitude)}
+##
+#    #return crd
+#
+#def print_geo_value(address):
+#    rank = []
+#    top = []
+#
+#    crd = get_geo_value(str(address))
+#
+#    if crd is None:
+#        current = "Could not retrieve geolocation for the address."
+#    else:
+#        current = [crd['lat'], crd['lng']]
+#
+#    print(current)
+#
+#    ref = db.reference('piece')
+#    data = ref.order_by_child('year')
+#
+#    for item in data.get().values():
+#        address2 = item['address']
+#        crd2 = get_geo_value(str(address2))
+#        if crd2:
+#            rank.append([item['name'], item['address'], item['year'], crd2['lat'], crd['lng']])
+#        else:
+#            print('no lat&lng')
+#
+#    return "hello"
+

@@ -3,27 +3,12 @@
 
 <head>
   <title>Home</title>
-  <link rel="stylesheet" href="../static/css/home.css">
   <link rel="stylesheet" href="../static/css/header.css">
   <link rel="stylesheet" href="../static/css/footer.css">
   <link rel="stylesheet" href="../static/css/loader.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.11.0/lottie.min.js"
     integrity="sha512-XCthc/WzPfa+oa49Z3TI6MUK/zlqd67KwyRL9/R19z6uMqBNuv8iEnJ8FWHUFAjC6srr8w3FMZA91Tfn60T/9Q=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
-  <script src="../static/js/geo.js"></script>
-  <!--css 초기화-->
-  <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">-->
-
-  <!-- SWIPER 외부 라이브러리 연결-->
-  <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css" />
-  <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
-
-  <!--google material icon 사용
-    class="material-icons"-->
-  <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
-  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-
 </head>
 
 <body>
@@ -38,7 +23,7 @@
       <a href="{{ url_for('list') }}">
         <li>Art List</li>
       </a>
-      <a href="{{ url_for('quiz') }}">
+      <a href="{{ url_for('patch') }}">
         <li>Quiz</li>
       </a>
       <a href="{{ url_for('patch') }}">
@@ -66,63 +51,14 @@
     {% endif %}
   </header>
   <main>
-    <div class="swiper">
-      <!-- Additional required wrapper -->
-      <div class="swiper-wrapper">
-        <!-- Slides -->
-        <div class="swiper-slide">Slide 1</div>
-        <div class="swiper-slide">Slide 2</div>
-        <div class="swiper-slide">Slide 3</div>
-      </div>
-      <!-- If we need pagination -->
-      <div class="swiper-pagination"></div>
-
-      <!-- If we need navigation buttons -->
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
-
-      <!-- If we need scrollbar -->
-      <div class="swiper-scrollbar"></div>
-    </div>
-
-    <div>
-      <h1>우리집 근처 미술관을 찾아볼까요?</h1>
-      <form action="/around" method="POST" id="around" name="around">
-        <input type="text" name="address" id="address" autocomplete="off" required>
-        <button type="submit" id="submit">검색</button>
-      </form>
-    </div>
-
-    <!--<div id="geo"></div>
-    <div class="card">
-      <div class="card-text">
-        <span class="date">1991</span> 
-        <h2>Lorem</h2> 
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur hendrerit mauris a massa elementum, quis vulputate augue imperdiet.</p>
-      </div>
-      작품위치 or detail이동버튼 or 좋아요,댓글,방문사진 넣으러가기
-      <div class="card-button">
-        <button>Go Detail</button>
-      </div>
-      <div class="card-stats">
-        <div class="stat">
-          <div class="value">4m</div>
-          <div class="type">read</div>
+    {% for data in item %}
+    <a href="{{ url_for('detail', name=data[0]) }}">
+        <div class="card">
+            <h2>{{ data[0] }}</h2>
+            <h3>{{ data[3] }}km</h3>
         </div>
-      </div>
-      <div class="card-stats">
-        <div class="stat">
-          <div class="value">5123</div>
-          <div class="type">views</div>
-        </div>
-      </div>
-      <div class="card-stats">
-        <div class="stat">
-          <div class="value">32</div>
-          <div class="type">comments</div>
-        </div>
-      </div>
-    </div>-->
+    </a>
+    {% endfor %}
   </main>
   <footer>
     <div>Follow US</div>
@@ -165,68 +101,6 @@
       document.querySelector(".loader").className = 'loaded';
     });
   </script>
-
-  <script>
-    new Swiper('.swiper', {
-      autoplay: {
-        delay: 2500
-      },
-      loop: true,
-      slidesPerView: 1,
-      spaceBetween: 0,
-      centeredSlides: true,
-      pagination: {
-        el: '.swiper-pagination',
-        clickable: true
-      },
-      navigation: {
-        prevEl: '.swiper-button-prev',
-        nextEl: '.swiper-button-next'
-      }
-    })
-  </script>
-  <script>
-    // 변수 => 지도 발생하면 더 안열리게 + 검색 prevent 로직그림이랑 서비스 아키텍쳐 ERD 3가지 그림이 포함이 필요할 듯
-    let aopen = false
-
-    if (aopen == false) {
-      aopen = true
-      document.getElementById("address").addEventListener("click", function () { //주소입력칸을 클릭하면
-        //카카오 지도 발생
-        new daum.Postcode({
-          oncomplete: function (data) { //선택시 입력값 세팅
-            console.log(data)
-            document.getElementById("address").value = data.jibunAddress; // 주소 넣기
-            aopen = false
-          }
-        }).open();
-      });
-    }
-
-    //const form = document.querySelector("form#around");
-    //form.addEventListener("submit", async function (event) {
-    //  if(aopen == true){
-    //    event.preventDefault(); // 기존의 제출 이벤트를 취소합니다.
-    //  }else{
-    //    this.submit();
-    //  }
-    //});
-  </script>
-  <!--<script>
-    fetch('/around')
-      .then(response => response.text())
-      .then(data => {
-        document.querySelector('#geo').textContent = data;
-      });
-  </script>-->
-
-  <!--<script>
-    fetch('/fire')
-      .then(response => response.text())
-      .then(data => {
-        document.querySelector('#geo').textContent = data;
-      });
-  </script>-->
 </body>
 
 </html>

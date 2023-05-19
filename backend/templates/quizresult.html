@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="../static/css/header.css">
+    <link rel="stylesheet" href="../static/css/footer.css">
+    <link rel="stylesheet" href="../static/css/loader.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.11.0/lottie.min.js"
+        integrity="sha512-XCthc/WzPfa+oa49Z3TI6MUK/zlqd67KwyRL9/R19z6uMqBNuv8iEnJ8FWHUFAjC6srr8w3FMZA91Tfn60T/9Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+</head>
+
+<body>
+    <div class="loader">
+        <div id="animContainer">
+
+        </div>
+    </div>
+    <header>
+        <div><a href="{{ url_for('index') }}"><img src="../static/img/YellowBF.png" alt="" id="logo"></a></div>
+        <ul>
+            <a href="{{ url_for('list') }}">
+                <li>Art List</li>
+            </a>
+            <a href="{{ url_for('patch') }}">
+                <li>Quiz</li>
+            </a>
+            <a href="{{ url_for('patch') }}">
+                <li>Patch</li>
+            </a>
+        </ul>
+        {% if session["nickname"] %}
+        <ul>
+            <a href="{{ url_for('setting') }}">
+                <li>{{session["nickname"]}}</li>
+            </a>
+            <a href="{{ url_for('logout') }}">
+                <li>Logout</li>
+            </a>
+        </ul>
+        {% else %}
+        <ul>
+            <a href="{{ url_for('login') }}">
+                <li>Login</li>
+            </a>
+            <a href="{{ url_for('signup') }}">
+                <li>SignUp</li>
+            </a>
+        </ul>
+        {% endif %}
+    </header>
+    <main>
+        <div>
+            <h1>결과는 {{ score }}점 입니다.</h1>
+            <p>지금 푼 문제들은 해외사례입니다.</p>
+            <p>그렇다면 서울에 얼마나 많은 공공미술이 있는지 알고 계신가요?</p>
+            <p>저희 사이트에만 {{ total }}개의 작품 목록이 있습니다.</p>
+            <p>홈화면에서 내 위치와 가장 가까운 작품을 체크하고 도시 속 미술을 즐겨보세요!</p>
+            <p>참! 떠나시기 전에 SNS로 테스트를 공유해주시면 감사하겠습니다❤️</p>
+        </div>
+        <div>
+            <ul class="sns">
+                <li class="facebook">
+                    <a href="#n" onclick="fn_sendFB('facebook');return false;" class="facebook" target="_self"
+                        title="페이스북 새창열림"><span class="skip">페이스북</span></a>
+                </li>
+                <li class="twitter">
+                    <a href="#n" onclick="fn_sendFB('twitter');return false;" class="twitter" target="_self"
+                        title="트위터 새창열림"><span class="skip">트위터</span></a>
+                </li>
+                <li class="band">
+                    <a href="#n" onclick="fn_sendFB('band');return false;" class="band" target="_self"
+                        title="네이버밴드 새창열림"><span class="skip">네이버밴드</span></a>
+                </li>
+                <li class="kakaotalk">
+                    <a href="#n" id="btnKakao" onclick="fn_sendFB('kakaotalk');return false;" class="kakaotalk"
+                        target="_self" title="카카오톡 새창열림"><span class="skip">카카오톡</span></a>
+                </li>
+            </ul>
+        </div>
+    </main>
+    <footer>
+        <div>Follow US</div>
+        <div>
+            <svg id="pinterest_svg" enable-background="new 0 0 56.693 56.693" id="Layer_1" version="1.1"
+                viewBox="0 0 56.693 56.693" width="56.693px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink">
+                <g>
+                    <path id="pinterest"
+                        d="M28.348,5.158c-13.599,0-24.625,11.023-24.625,24.625c0,10.082,6.063,18.744,14.739,22.553   c-0.069-1.721-0.012-3.783,0.429-5.654c0.473-2,3.168-13.418,3.168-13.418s-0.787-1.572-0.787-3.896   c0-3.648,2.115-6.373,4.749-6.373c2.24,0,3.322,1.682,3.322,3.695c0,2.252-1.437,5.619-2.175,8.738   c-0.616,2.613,1.31,4.744,3.887,4.744c4.665,0,7.808-5.992,7.808-13.092c0-5.397-3.635-9.437-10.246-9.437   c-7.47,0-12.123,5.57-12.123,11.792c0,2.146,0.633,3.658,1.624,4.83c0.455,0.537,0.519,0.754,0.354,1.371   c-0.118,0.453-0.389,1.545-0.501,1.977c-0.164,0.625-0.669,0.848-1.233,0.617c-3.44-1.404-5.043-5.172-5.043-9.408   c0-6.994,5.899-15.382,17.599-15.382c9.4,0,15.588,6.804,15.588,14.107c0,9.658-5.369,16.875-13.285,16.875   c-2.659,0-5.16-1.438-6.016-3.068c0,0-1.43,5.674-1.732,6.768c-0.522,1.9-1.545,3.797-2.479,5.275   c2.215,0.654,4.554,1.01,6.979,1.01c13.598,0,24.623-11.023,24.623-24.623C52.971,16.181,41.945,5.158,28.348,5.158z" />
+                </g>
+            </svg>
+            <img src="../static/img/footer_logo/1-removebg-preview.png" alt="" id="kapok">
+            <svg id="github_svg" enable-background="new 0 0 32 32" id="Layer_1" version="1.0" viewBox="0 0 32 32"
+                width="32px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink">
+                <path clip-rule="evenodd" id="github"
+                    d="M16.003,0C7.17,0,0.008,7.162,0.008,15.997  c0,7.067,4.582,13.063,10.94,15.179c0.8,0.146,1.052-0.328,1.052-0.752c0-0.38,0.008-1.442,0-2.777  c-4.449,0.967-5.371-2.107-5.371-2.107c-0.727-1.848-1.775-2.34-1.775-2.34c-1.452-0.992,0.109-0.973,0.109-0.973  c1.605,0.113,2.451,1.649,2.451,1.649c1.427,2.443,3.743,1.737,4.654,1.329c0.146-1.034,0.56-1.739,1.017-2.139  c-3.552-0.404-7.286-1.776-7.286-7.906c0-1.747,0.623-3.174,1.646-4.292C7.28,10.464,6.73,8.837,7.602,6.634  c0,0,1.343-0.43,4.398,1.641c1.276-0.355,2.645-0.532,4.005-0.538c1.359,0.006,2.727,0.183,4.005,0.538  c3.055-2.07,4.396-1.641,4.396-1.641c0.872,2.203,0.323,3.83,0.159,4.234c1.023,1.118,1.644,2.545,1.644,4.292  c0,6.146-3.74,7.498-7.304,7.893C19.479,23.548,20,24.508,20,26c0,2,0,3.902,0,4.428c0,0.428,0.258,0.901,1.07,0.746  C27.422,29.055,32,23.062,32,15.997C32,7.162,24.838,0,16.003,0z"
+                    fill="#181616" fill-rule="evenodd" />
+                <g />
+                <g />
+                <g />
+                <g />
+                <g />
+                <g />
+            </svg>
+        </div>
+    </footer>
+    <script>
+        var lottieAnim = lottie.loadAnimation({
+            container: document.getElementById("animContainer"), // the dom element that will contain the animation
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: 'https://assets6.lottiefiles.com/temp/lf20_92d2Bu.json' // the path to the animation json
+        });
+    </script>
+
+    <script>
+        window.addEventListener("load", function () {
+            document.querySelector(".loader").className = 'loaded';
+        });
+    </script>
+    <script>
+        function fn_sendFB(sns) {
+            var thisUrl = document.URL;
+            var snsTitle = "2021 웹진 [봄]";
+            if (sns == 'facebook') {
+                var url = "http://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(thisUrl);
+                window.open(url, "", "width=486, height=286");
+            }
+            else if (sns == 'twitter') {
+                var url = "http://twitter.com/share?url=" + encodeURIComponent(thisUrl) + "&text=" + encodeURIComponent(snsTitle);
+                window.open(url, "tweetPop", "width=486, height=286,scrollbars=yes");
+            }
+            else if (sns == 'band') {
+                var url = "http://www.band.us/plugin/share?body=" + encodeURIComponent(snsTitle) + "&route=" + encodeURIComponent(thisUrl);
+                window.open(url, "shareBand", "width=400, height=500, resizable=yes");
+            }
+            else if (sns == 'kakaotalk') {
+                // 사용할 앱의 JavaScript 키 설정
+                Kakao.init('da4e662f1d80275b555068f9db84f48a');
+
+                // 카카오링크 버튼 생성
+                Kakao.Link.createDefaultButton({
+                    container: '#btnKakao', // HTML에서 작성한 ID값
+                    objectType: 'feed',
+                    content: {
+                        title: "2021 웹진 [봄]", // 보여질 제목
+                        description: "2021 웹진 [봄]", // 보여질 설명
+                        imageUrl: thisUrl, // 콘텐츠 URL
+                        link: {
+                            mobileWebUrl: thisUrl,
+                            webUrl: thisUrl
+                        }
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

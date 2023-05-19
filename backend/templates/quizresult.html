@@ -126,7 +126,7 @@
     <script>
         function fn_sendFB(sns) {
             var thisUrl = document.URL;
-            var snsTitle = "2021 웹진 [봄]";
+            var snsTitle = "스트리트갤러리";
             if (sns == 'facebook') {
                 var url = "http://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(thisUrl);
                 window.open(url, "", "width=486, height=286");
@@ -141,15 +141,15 @@
             }
             else if (sns == 'kakaotalk') {
                 // 사용할 앱의 JavaScript 키 설정
-                Kakao.init('da4e662f1d80275b555068f9db84f48a');
+                Kakao.init('eaddc8b2fffe0932f44d4d0c625a480f');
 
                 // 카카오링크 버튼 생성
                 Kakao.Link.createDefaultButton({
                     container: '#btnKakao', // HTML에서 작성한 ID값
                     objectType: 'feed',
                     content: {
-                        title: "2021 웹진 [봄]", // 보여질 제목
-                        description: "2021 웹진 [봄]", // 보여질 설명
+                        title: snsTitle, // 보여질 제목
+                        description: "공공미술 능력평가", // 보여질 설명
                         imageUrl: thisUrl, // 콘텐츠 URL
                         link: {
                             mobileWebUrl: thisUrl,

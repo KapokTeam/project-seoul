@@ -125,18 +125,19 @@
     </script>
     <script>
         function fn_sendFB(sns) {
-            var thisUrl = document.URL;
-            var snsTitle = "스트리트갤러리";
+            let thisUrl = document.URL;
+            let newUrl = thisUrl + '/quiz';
+            let snsTitle = "스트리트갤러리";
             if (sns == 'facebook') {
-                var url = "http://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(thisUrl);
+                let url = "http://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(newUrl);
                 window.open(url, "", "width=486, height=286");
             }
             else if (sns == 'twitter') {
-                var url = "http://twitter.com/share?url=" + encodeURIComponent(thisUrl) + "&text=" + encodeURIComponent(snsTitle);
+                let url = "http://twitter.com/share?url=" + encodeURIComponent(newUrl) + "&text=" + encodeURIComponent(snsTitle);
                 window.open(url, "tweetPop", "width=486, height=286,scrollbars=yes");
             }
             else if (sns == 'band') {
-                var url = "http://www.band.us/plugin/share?body=" + encodeURIComponent(snsTitle) + "&route=" + encodeURIComponent(thisUrl);
+                let url = "http://www.band.us/plugin/share?body=" + encodeURIComponent(snsTitle) + "&route=" + encodeURIComponent(newUrl);
                 window.open(url, "shareBand", "width=400, height=500, resizable=yes");
             }
             else if (sns == 'kakaotalk') {
@@ -150,10 +151,10 @@
                     content: {
                         title: snsTitle, // 보여질 제목
                         description: "공공미술 능력평가", // 보여질 설명
-                        imageUrl: thisUrl, // 콘텐츠 URL
+                        imageUrl: newUrl, // 콘텐츠 URL
                         link: {
-                            mobileWebUrl: thisUrl,
-                            webUrl: thisUrl
+                            mobileWebUrl: newUrl,
+                            webUrl: newUrl
                         }
                     }
                 });

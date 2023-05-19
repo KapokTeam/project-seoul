@@ -126,7 +126,8 @@
     <script>
         function fn_sendFB(sns) {
             let thisUrl = document.URL;
-            let newUrl = thisUrl + '/quiz';
+            let newUrl = 'https://streetgall.net/quiz';
+            console.log(newUrl)
             let snsTitle = "스트리트갤러리";
             if (sns == 'facebook') {
                 let url = "http://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(newUrl);

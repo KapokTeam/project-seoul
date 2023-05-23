@@ -126,9 +126,13 @@ h2 {
 }
 
 .questimg {
-    border: 2px solid black;
-    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    width: fit-content;
+    border: 1px solid black;
+    margin: 0 auto;
 }
+
 
 @media only screen and (max-width: 768px) {
     li {
@@ -148,8 +152,6 @@ h2 {
     .questimg {
         margin-top: 2.5vw;
         margin-bottom: 2vw;
-        display: flex;
-        justify-content: center;
     }
 
     .questimg>img {

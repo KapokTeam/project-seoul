@@ -1,25 +1,22 @@
-footer {
+/* footer {
     background-color: #22263f;
-    padding: 2vw 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 16px;
 }
 
 footer>div {
-    display: flex;
-    justify-content: center;
     color: white;
     font-family: 'EB Garamond', serif;
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
-    font-size: 1.5vw;
 }
 
-footer>div:last-child>svg {
-    margin: 0;
-    padding: 0;
-}
-
-#pinterest_svg {
-    width: 4.3vw;
+svg {
+    margin: 0 10px;
+    cursor: pointer;
 }
 
 #pinterest {
@@ -30,13 +27,84 @@ footer>div:last-child>svg {
     fill: red;
 }
 
-#kapok {
-    margin: 1.5vw 3vw;
-    width: 4.3vw;
+#github {
+    fill: bisque;
 }
 
-#github_svg {
-    width: 3.8vw;
+#github:hover {
+    fill: rgb(125, 125, 255);
+}
+
+
+@media only screen and (max-width: 768px) {
+    #pinterest_svg {
+        width: 4.3vw;
+    }
+
+    #kapok {
+        margin: 1.5vw 3vw;
+        width: 4.3vw;
+    }
+
+    #github_svg {
+        width: 3.8vw;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+    #pinterest_svg {
+        width: 4.3vw;
+    }
+
+    #kapok {
+        margin: 1.5vw 3vw;
+        width: 4.3vw;
+    }
+
+    #github_svg {
+        width: 3.8vw;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    #pinterest_svg {
+        width: 4.3vw;
+    }
+
+    #kapok {
+        margin: 1.5vw 3vw;
+        width: 4.3vw;
+    }
+
+    #github_svg {
+        width: 3.8vw;
+    }
+} */
+
+footer {
+    background-color: #22263f;
+}
+
+footer>div {
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-family: 'EB Garamond', serif;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+}
+
+footer>div:last-child>svg {
+    margin: 0;
+    padding: 0;
+}
+
+#pinterest {
+    fill: bisque;
+}
+
+#pinterest:hover {
+    fill: red;
 }
 
 #github {
@@ -47,8 +115,72 @@ footer>div:last-child>svg {
     fill: rgb(125, 125, 255);
 }
 
-@media only screen and (max-width: 767px) {}
+@media only screen and (max-width: 768px) {
+    footer {
+        padding: 3vw 0 2vw 0;
+    }
 
-@media only screen and (min-width: 768px) and (max-width: 1023px) {}
+    footer>div {
+        font-size: 3.5vw;
+        margin-bottom: 1vw;
+    }
 
-@media only screen and (min-width: 1024px) {}
+    #pinterest_svg {
+        width: 6.3vw;
+    }
+
+    #kapok {
+        margin: 1.5vw 3vw;
+        width: 6.3vw;
+    }
+
+    #github_svg {
+        width: 5.8vw;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
+    footer {
+        padding: 1.8vw 0;
+    }
+
+    footer>div {
+        font-size: 2vw;
+    }
+
+    #pinterest_svg {
+        width: 4.3vw;
+    }
+
+    #kapok {
+        margin: 1.5vw 3vw;
+        width: 4.3vw;
+    }
+
+    #github_svg {
+        width: 3.8vw;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    footer {
+        padding: 0.5vw 0 0 0;
+    }
+
+    footer>div {
+        font-size: 1.5vw;
+    }
+
+    #pinterest_svg {
+        width: 4vw;
+    }
+
+    #kapok {
+        margin: 1.5vw 3vw;
+        width: 4vw;
+    }
+
+    #github_svg {
+        width: 3.5vw;
+    }
+}

@@ -19,7 +19,7 @@ def add_member(id, pw, email, nickname):
         nickname = str(random.choice(a) + " " + random.choice(b))
 
     if(trim_email == None or trim_email == ''):
-        email = 'none'
+        email = 'none@gmail.com'
 
 
     ref = db.reference('member') # 기본 가장 상단을 가르킴
@@ -34,15 +34,16 @@ def add_member(id, pw, email, nickname):
         'id' : str(id),
         'password' : str(pw),
         'nickname' : str(nickname),
-        'email' : str(email)
+        'email' : str(email),
+        'admin' : False
     })
     # ref.update({'id' : 'development'}) # 해당 변수가 없으면 생성한다.
     return True
 
-def validate_member(id, pw):
+def validate_member(id):
     ref = db.reference('member')
     IDExist = ref.order_by_child('id').equal_to(id).get()
-    PWExist = ref.order_by_child('password').equal_to(pw).get()
+    # PWExist = ref.order_by_child('password').equal_to(pw).get()
     # NicknameExist = ref.order_by_child('id').equal_to(id).get()
     # EmailExist = ref.order_by_child('email').equal_to(id).get()
 
@@ -50,11 +51,12 @@ def validate_member(id, pw):
         # return jsonify({'message': 'Exist ' + result}), 200
         return False
     else:
+        return True
         # return jsonify({'message': 'NoExist'}), 200
-        if PWExist:
-            return False
-        else:
-            return True
+        # if PWExist:
+        #     return False
+        # else:
+        #     return True
     
     # member에서 id가 id인 값을 조회
     # docs = db.collection(u'member')

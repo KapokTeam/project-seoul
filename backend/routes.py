@@ -35,7 +35,7 @@ def detail():
 def quiz():
     date = datetime.today().strftime("%Y%m%d%H%M%S")
     question = [["인어공주 동상", "여행자들", "내가 죽기 전에", "프란츠 카프카의 머리", "러버덕"],
-                ["숟가락 다리와 체리", "시리아 이민자의 아들", "7000그루 나무", "클라우드 게이트", "양자 클라우드"],
+                ["숟가락 다리와 체리", "시리아 이민자의 아들", "7000그루의 떡갈나무", "클라우드 게이트", "양자 클라우드"],
                 ["모국이 부른다", "풍선과 소녀", "무제", "기울어진 호", "북쪽의 천사"],
                 ["칼레의 시민", "키스", "다윗", "크리스탈 퀼트", "월가 황소상"],
                 ["원반 던지는 사람", "사모트라케의 니케", "호박", "마망", "산타로사"]]
@@ -58,7 +58,7 @@ def quizresult():
 
     omr = str(omr).split(",")  # ','로 구분된 문자열을 리스트로 변환
 
-    answer = ["러버덕", "7000그루 나무", "북쪽의 천사", "크리스탈 퀼트", "호박"]
+    answer = ["러버덕", "7000그루의 떡갈나무", "북쪽의 천사", "크리스탈 퀼트", "호박"]
     length = len(answer)
 
     if len(omr) != length:
@@ -294,7 +294,7 @@ def member():
         email = request.form['email']
         nickname = request.form['nickname']
         # 함수 리턴값으로 조건 건 다음에 리다이렉트 시키기.
-        if(validate_member(id, pw)):
+        if(validate_member(id)):
             if(add_member(id, pw, email, nickname)):
                 return redirect(url_for('login'))
             else:

@@ -1,6 +1,7 @@
 header {
     display: flex;
     justify-content: space-between;
+    background-color: white;
     /* border: 1px solid black; */
     /* background: #9D50BB;  
     background: -webkit-linear-gradient(to right, #6E48AA, #9D50BB);  
@@ -15,17 +16,35 @@ header>ul {
     font-family: 'EB Garamond', serif;
     font-family: 'Roboto', sans-serif;
     font-weight: bold;
+    padding: 0;
+}
+
+#logo-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#logo {
+    height: auto;
+    max-height: 100%;
+    width: auto;
+    max-width: 100%;
 }
 
 header>ul>a>li {
     list-style: none;
+    display: flex;
+    align-items: center;
+    height: 100%;
 }
 
 header>ul>a:link {
     color: black;
     text-decoration-line: none;
 }
-  
+
 /* visited link */
 header>ul>a:visited {
     color: black;
@@ -45,7 +64,82 @@ header>ul>a:active {
     text-decoration-line: none;
 }
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
+    #logo {
+        width: 17vw;
+        margin-left: 2vw;
+    }
+
+    header ul:nth-child(2) a li {
+        margin: 0 2vw;
+        font-size: 3.2vw;
+    }
+
+    header ul:last-child a li {
+        margin: 0 2vw;
+        font-size: 3.2vw;
+    }
+
+    header {
+        box-shadow: 0 4px 4px -4px black;
+    }
+    
+    #logo-container>li {
+        margin: 4vw 0;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    #logo {
+        width: 12vw;
+        margin-left: 1vw;
+    }
+
+    header ul:nth-child(2) a li {
+        margin: 0 2vw;
+        font-size: 2vw;
+    }
+
+    header ul:last-child a li {
+        margin: 0 2vw;
+        font-size: 2vw;
+    }
+
+    header {
+        box-shadow: 0 6px 6px -6px black;
+    }
+
+    #logo-container>li {
+        margin: 4vw 0;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    #logo {
+        width: 12vw;
+        margin-left: 0.5vw;
+    }
+
+    header ul:nth-child(2) a li {
+        margin: 0 2vw;
+        font-size: 1.6vw;
+    }
+
+    header ul:last-child a li {
+        margin: 0 2vw;
+        font-size: 1.6vw;
+    }
+
+    header {
+        box-shadow: 0 8px 8px -8px black;
+    }
+
+    #logo-container>li {
+        margin: 0.5vw 0;
+    }
+}
+
+/* @media only screen and (max-width: 767px) {
     #logo {
         width: 15vw;
         margin: 0 1.5vw;
@@ -63,11 +157,13 @@ header>ul>a:active {
     }
 
     header {
+        height: 50px;
+        line-height: 50px;
         box-shadow: 0 4px 4px -4px black;
     }
-  }
-  
-  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
     #logo {
         width: 12vw;
         margin: 0 1.5vw;
@@ -85,11 +181,13 @@ header>ul>a:active {
     }
 
     header {
+        height: 60px;
+        line-height: 60px;
         box-shadow: 0 6px 6px -6px black;
     }
-  }
-  
-  @media only screen and (min-width: 1024px) {
+}
+
+@media only screen and (min-width: 1024px) {
     #logo {
         width: 12vw;
         margin: 0 1.5vw;
@@ -104,8 +202,11 @@ header>ul>a:active {
     header ul:last-child a li {
         margin: 0 2vw;
         font-size: 1.4vw;
-    }   
+    }
+
     header {
+        height: 70px;
+        line-height: 70px;
         box-shadow: 0 8px 8px -8px black;
     }
-  }
+} */

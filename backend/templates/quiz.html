@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <title>Home</title>
-    <link rel="stylesheet" href="../static/css/quiz.css">
+    <title>퀴즈</title>
     <link rel="stylesheet" href="../static/css/header.css">
     <link rel="stylesheet" href="../static/css/footer.css">
     <link rel="stylesheet" href="../static/css/loader.css">
+    <link rel="stylesheet" href="../static/css/quiz.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.11.0/lottie.min.js"
         integrity="sha512-XCthc/WzPfa+oa49Z3TI6MUK/zlqd67KwyRL9/R19z6uMqBNuv8iEnJ8FWHUFAjC6srr8w3FMZA91Tfn60T/9Q=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -19,12 +19,16 @@
         </div>
     </div>
     <header>
-        <div><a href="{{ url_for('index') }}"><img src="../static/img/YellowBF.png" alt="" id="logo"></a></div>
+        <ul>
+            <a href="{{ url_for('index') }}" id="logo-container">
+                <li><img src="../static/img/YellowBF.png" alt="" id="logo"></li>
+            </a>
+        </ul>
         <ul>
             <a href="{{ url_for('list') }}">
                 <li>Art List</li>
             </a>
-            <a href="{{ url_for('patch') }}">
+            <a href="{{ url_for('quiz') }}">
                 <li>Quiz</li>
             </a>
             <a href="{{ url_for('patch') }}">
@@ -52,25 +56,42 @@
         {% endif %}
     </header>
     <main>
-        <hr>
-        <p>공공미술 능력 고사</p>
-        <p>수험번호: {{ date }}</p>
-        <hr>
+        <div id="description">
+            <h3>재미로하는</h3>
+            <h1>공공미술 능력 고사</h1>
+            <h2>
+                나는 공공미술 작품을 얼마나 알까?
+            </h2>
+            {% if session["nickname"] %}
+            <h3>
+                이름: {{ session["nickname"] }}<br> 
+                수험번호: {{ date }}
+            </h3>
+            {% else %}
+            <h3>수험번호: {{ date }}</h3>
+            {% endif %}
+        </div>
+        <div class="start">
+            <button id="start-button" class="w-btn-neon2">테스트 시작하기!</button>
+        </div>
         {% set question_length = question|length %}
         {% for i in range(question_length) %}
         {% set choices = question[i] %}
         {% set image = images[i] %}
-        <div class="question{% if i != 0 %} hidden{% endif %}">
-            <img src="{{ image|safe }}" alt="">
-            <p>문제: 다음 사진을 보고 알맞은 작품 이름을 골라주세요.</p>
+        <div class="question hidden">
+            <div class="questbox">
+                <p class="questtext">Q: 다음 사진을 보고 알맞은 작품 이름을 골라주세요.</p>
+                <div class="questimg"><img src="{{ image|safe }}" alt=""></div>
+            </div>
             <ul>
-                {% for choice in choices %}
-                <li class="answer">{{ choice }}</li>
-                {% endfor %}
+                <li class="answer"><span>①</span><span class="real-answer">{{ choices[0] }}</span></li>
+                <li class="answer"><span>②</span><span class="real-answer">{{ choices[1] }}</span></li>
+                <li class="answer"><span>③</span><span class="real-answer">{{ choices[2] }}</span></li>
+                <li class="answer"><span>④</span><span class="real-answer">{{ choices[3] }}</span></li>
+                <li class="answer"><span>⑤</span><span class="real-answer">{{ choices[4] }}</span></li>
             </ul>
         </div>
         {% endfor %}
-
     </main>
     <footer>
         <div>Follow US</div>
@@ -119,21 +140,31 @@
         let now = 0
         let omr = []
 
+        const resultMessage = document.createElement('h1');
+        resultMessage.textContent = '채점 중입니다...';
+        resultMessage.classList.add('result-message');
 
+        const startButton = document.getElementById('start-button');
         const questions = document.querySelectorAll('.question');
 
         questions.forEach((question, index) => {
-            if (index !== 0) {
-                question.classList.add('hidden');
-            }
+            question.classList.add('hidden');
         });
+
+        startButton.addEventListener('click', () => {
+                document.getElementById('description').classList.add('hidden');
+                document.querySelector('.start').classList.add('hidden');
+                questions[0].classList.remove('hidden');
+            });
 
         const answers = document.querySelectorAll('.answer');
 
         // 각 선지에 대해 이벤트 리스너를 추가합니다
         answers.forEach(answer => {
             answer.addEventListener('click', () => {
-                omr[now] = answer.textContent
+                const realAnswer = answer.querySelector('.real-answer').textContent;
+                omr[now] = realAnswer;
+
                 const currentQuestion = answer.closest('.question');
                 currentQuestion.classList.add('hidden');
 
@@ -142,12 +173,15 @@
                     nextQuestion.classList.remove('hidden');
                     now += 1
                 } else {
+                    document.querySelector('main').appendChild(resultMessage);
                     const omrParam = omr.join(",");
                     const url = "/quizresult?omr=" + encodeURIComponent(omrParam);
                     window.location.href = url;
                 }
+            });
+        });
 
-                //
+    //
 
                 //if (now >= 5) {
                 //    fetch('/quizresult', {
@@ -177,8 +211,6 @@
                 //            }
                 //        });
                 //}
-            });
-        });
     </script>
 </body>
 

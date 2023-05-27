@@ -6,9 +6,16 @@
     <link rel="stylesheet" href="../static/css/header.css">
     <link rel="stylesheet" href="../static/css/footer.css">
     <link rel="stylesheet" href="../static/css/loader.css">
+    <link rel="stylesheet" href="../static/css/detail.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.11.0/lottie.min.js"
         integrity="sha512-XCthc/WzPfa+oa49Z3TI6MUK/zlqd67KwyRL9/R19z6uMqBNuv8iEnJ8FWHUFAjC6srr8w3FMZA91Tfn60T/9Q=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!--google material icon 사용
+        class="material-icons"-->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 
 <body>
@@ -18,12 +25,16 @@
         </div>
     </div>
     <header>
-        <div><a href="{{ url_for('index') }}"><img src="../static/img/YellowBF.png" alt="" id="logo"></a></div>
+        <ul>
+            <a href="{{ url_for('index') }}" id="logo-container">
+                <li><img src="../static/img/YellowBF.png" alt="" id="logo"></li>
+            </a>
+        </ul>
         <ul>
             <a href="{{ url_for('list') }}">
                 <li>Art List</li>
             </a>
-            <a href="{{ url_for('patch') }}">
+            <a href="{{ url_for('quiz') }}">
                 <li>Quiz</li>
             </a>
             <a href="{{ url_for('patch') }}">
@@ -51,11 +62,76 @@
         {% endif %}
     </header>
     <main>
-        {% for key, item in piece.items() %}
-        <div class="card">
-            <h2>{{ item['name'] }}</h2>
+        {% if not session['id'] %}
+        <div class="blur">
+            <div id="popup-box">
+                <a href="{{ url_for('login') }}">
+                    <div id="goto-login">
+                        <span style="font-size: 3vw;" class="material-symbols-outlined">login</span>
+                        <span>로그인 하러가기</span>
+                    </div>
+                </a>
+            </div>
         </div>
-        {% endfor %}
+        {% endif %}
+        <!-- {% for item in piece %} -->
+        <div class="card">
+            <h1>{{ piece[0]['name'] }}</h1>
+        </div>
+        <div class="description">
+            <div class="title">
+                <h2>작품설명</h2>
+            </div>
+            <h3>■ 작품명: {{ piece[0]['name'] }}</h3>
+            <h3>■ 설치연도: {{ piece[0]['year'] }}</h3>
+            <h3>■ 주소: {{ piece[0]['address'] }}</h3>
+            {% if piece[0]['description'] != 'none' %}
+            <h3>■ 작품설명: {{ piece[0]['description'] }}</h3>
+            {% else %}
+            <h3>■ 작품설명: X</h3>
+            {% endif %}
+        </div>
+        {% if piece[0]['lat'] and piece[0]['lng'] %}
+        <div class="map-title"><h2>지도</h2></div>
+        <div class="map-container" id="map" data-lat="{{ piece[0]['lat'] }}" data-lng="{{ piece[0]['lng'] }}"
+            style="width:100%;height:350px;"></div>
+        {% endif %}
+        <div id="comment-container">
+            <div style="text-align: center;">
+                <h2>작품에 대한 의견을 들려주세요!</h2>
+            </div>
+            <div id="comment-all">
+                <div id="total">
+                    <h3>댓글 {{ total }}개</h3>
+                </div>
+                <div id="comment-box" >
+                    <h2>댓글쓰기</h2>
+                    <form action="/comment" method="POST" id="comment" name="comment">
+                        <input type="hidden" name="name" value="{{ piece[0]['name'] }}">
+                        <input type="hidden" name="person" value="{{ session['id'] }}">
+                        <textarea name="comment_content" id="comment_content" placeholder="어떤 의견을 남기시겠어요?"
+                            required></textarea><br>
+                        <button type="submit" id="submit">등록</button>
+                    </form>
+                </div>
+                {% for data in comment %}
+                <div class="comment-list">
+                    <div class="comment-list-box">
+                        <p class="author">{{ data['nickname'] }}</p>
+                        <p class="time">{{ data['formatted_time'] }}</p>
+                        <p class="content">{{ data['content'] }}</p>
+                        {% if session["id"] == data['person'] %}
+                        <div class="button-container"> 
+                            <button class="delete" data-person="{{ data['person'] }}" data-time="{{ data['time'] }}"
+                                data-piece="{{ data['piece'] }}">삭제</button>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- {% endfor %} -->
     </main>
     <footer>
         <div>Follow US</div>
@@ -84,6 +160,88 @@
             </svg>
         </div>
     </footer>
+    <script type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=eaddc8b2fffe0932f44d4d0c625a480f"></script>
+    <script>
+        var mapBox = document.querySelector('.map-container');
+        var lat = mapBox.getAttribute('data-lat');
+        var lng = mapBox.getAttribute('data-lng');
+
+        if (lat != 'None' && lng != 'None') {
+            var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                mapOption = {
+                    center: new kakao.maps.LatLng(lat, lng), // 지도의 중심좌표
+                    level: 3 // 지도의 확대 레벨
+                };
+
+            var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+
+            // 마커가 표시될 위치입니다 
+            var markerPosition = new kakao.maps.LatLng(lat, lng);
+
+            // 마커를 생성합니다
+            var marker = new kakao.maps.Marker({
+                position: markerPosition
+            });
+
+            // 마커가 지도 위에 표시되도록 설정합니다
+            marker.setMap(map);
+
+            // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+            // marker.setMap(null);
+        }    
+    </script>
+    <script>
+        let sessionId = 'None'
+
+        document.getElementById("submit").onclick = function () {
+            fetch('/get-sesstion')
+                .then(response => response.text())
+                .then(data => {
+                    sessionId = String(data)
+                })
+                .then(data => {
+                    if (!sessionId || sessionId == 'None') {
+                        alert('세션이 만료되었습니다. 다시 로그인해주세요!');
+                        window.location.href = '/login';
+                        return false;
+                    }
+                    else {
+                        return true;
+                    }
+                });
+        }
+
+        const deleteButtons = document.querySelectorAll('.delete');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                // 클릭된 댓글의 고유 식별자를 가져옵니다.
+                let person = button.getAttribute('data-person'); // data-person 값 가져오기
+                let time = button.getAttribute('data-time'); // data-time 값 가져오기
+                let piece = button.getAttribute('data-piece'); // data-comment-id 값 가져오기
+
+                // 특정 라우터로 fetch 요청을 보냅니다.
+                fetch('/delete-comment', {
+                    method: 'POST',
+                    body: JSON.stringify({ person, time, piece }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            // Fetch successful
+                            window.location.reload(); // Refresh the page
+                        } else {
+                            throw new Error('Error: ' + response.status);
+                        }
+                    })
+                    .catch(error => {
+                        // 에러 처리
+                    });
+            });
+        });
+    </script>
     <script>
         var lottieAnim = lottie.loadAnimation({
             container: document.getElementById("animContainer"), // the dom element that will contain the animation

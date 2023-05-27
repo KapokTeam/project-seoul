@@ -7,6 +7,8 @@ from firebase_admin import db
 import random
 import xmltodict
 import math
+import datetime
+import pytz
 
 def add_member(id, pw, email, nickname):
     a = ["성실한", "진지한"]
@@ -323,7 +325,7 @@ def print_geo_value(address):
         crd2 = get_geo_value(str(address2))
         if crd2:
             dis = distance(float(current[0]), float(current[1]), float(crd2['lat']), float(crd2['lng']))
-            rank.append([item['name'], item['address'], item['year'], dis])
+            rank.append([item['name'], item['address'], item['year'], dis, current[0], current[1]])
         else:
             print(str(item['name']) + ': no lat&lng')
 
@@ -337,6 +339,36 @@ def print_geo_value(address):
     print(top)
 
     return top
+
+
+def create_comment(piece, comment, person):
+    ref = db.reference('comment') # 기본 가장 상단을 가르킴
+    ref2 = db.reference('member')
+    mem = ref2.order_by_child('id').equal_to(person).get()
+    nickname = ''
+    for key, value in mem.items():
+        nickname = value['nickname']  
+
+    # 현재 시간 가져오기
+    current_time = datetime.datetime.now(pytz.UTC)
+
+    # ISO 8601 형식으로 변환
+    time_string = current_time.isoformat()
+
+    comment_ref = ref.push()
+    comment_ref.set({
+        'piece' : str(piece), #어느 작품
+        'content' : str(comment), #무슨 내용
+        'person' : str(person), # 누가 
+        'nickname' : str(nickname),
+        'time' : str(time_string), #언제 달렸는지
+        })
+    return True
+
+
+
+
+
 
 #def get_geo_value(address):
 #    url = 'https://dapi.kakao.com/v2/local/search/address.json?query=' + address

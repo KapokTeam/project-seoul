@@ -2,14 +2,22 @@
 <html lang="en">
 
 <head>
-  <title>Home</title>
-  <link rel="stylesheet" href="../static/css/list.css">
+  <title>작품목록</title>
   <link rel="stylesheet" href="../static/css/header.css">
   <link rel="stylesheet" href="../static/css/footer.css">
   <link rel="stylesheet" href="../static/css/loader.css">
+  <link rel="stylesheet" href="../static/css/list.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.11.0/lottie.min.js"
     integrity="sha512-XCthc/WzPfa+oa49Z3TI6MUK/zlqd67KwyRL9/R19z6uMqBNuv8iEnJ8FWHUFAjC6srr8w3FMZA91Tfn60T/9Q=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 
 <body>
@@ -19,52 +27,101 @@
     </div>
   </div>
   <header>
-    <div><a href="{{ url_for('index') }}"><img src="../static/img/YellowBF.png" alt="" id="logo"></a></div>
     <ul>
-      <a href="{{ url_for('list') }}"><li>Art List</li></a>
-      <a href="{{ url_for('patch') }}"><li>Quiz</li></a>
-      <a href="{{ url_for('patch') }}"><li>Patch</li></a>
+      <a href="{{ url_for('index') }}" id="logo-container">
+        <li><img src="../static/img/YellowBF.png" alt="" id="logo"></li>
+      </a>
+    </ul>
+    <ul>
+      <a href="{{ url_for('list') }}">
+        <li>Art List</li>
+      </a>
+      <a href="{{ url_for('quiz') }}">
+        <li>Quiz</li>
+      </a>
+      <a href="{{ url_for('patch') }}">
+        <li>Patch</li>
+      </a>
     </ul>
     {% if session["nickname"] %}
     <ul>
-      <a href="{{ url_for('setting') }}"><li>{{session["nickname"]}}</li></a>
-      <a href="{{ url_for('logout') }}"><li>Logout</li></a>
+      <a href="{{ url_for('setting') }}">
+        <li>{{session["nickname"]}}</li>
+      </a>
+      <a href="{{ url_for('logout') }}">
+        <li>Logout</li>
+      </a>
     </ul>
     {% else %}
     <ul>
-      <a href="{{ url_for('login') }}"><li>Login</li></a>
-      <a href="{{ url_for('signup') }}"><li>SignUp</li></a>
+      <a href="{{ url_for('login') }}">
+        <li>Login</li>
+      </a>
+      <a href="{{ url_for('signup') }}">
+        <li>SignUp</li>
+      </a>
     </ul>
     {% endif %}
   </header>
   <main>
-    <div id="board">
-      <h1>List</h1>
-      <form action="{{ url_for('list', page=1) }}" method="get" name="search">
-        <input type="text" name="searchquery" id="searchquery" autocomplete="off" required>
-        <button type="submit" id="submit">검색</button>
-      </form>
-      {% for item in data %}
-      <div class="card">
-        <h2>{{ item.name }}</h2>
-        <p>{{ item.description }}</p>
-        <p>Year: {{ item.year }}</p>
-        <p>Address: {{ item.address }}</p>
+    {% if not session['nickname'] %}
+    <div class="blur">
+      <div id="popup-box">
+        <a href="{{ url_for('login') }}">
+          <div id="goto-login">
+            <span style="font-size: 3vw;" class="material-symbols-outlined">login</span>
+            <span>로그인 하러가기</span>
+          </div>
+        </a>
       </div>
+    </div>
+    {% endif %}
+    <div id="board">
+      <div id="searchbox">
+        <h1>작품목록</h1>
+        <form action="{{ url_for('list', page=1) }}" method="get" name="search" id="searchform">
+          <input type="text" placeholder="검색어입력" name="searchquery" id="searchquery" autocomplete="off" required>
+          <button type="submit" id="submit"><span style="font-size: 1.8vw;" class="material-symbols-outlined">
+              search
+            </span></button>
+        </form>
+      </div>
+      {% for item in data %}
+      <a href="{{ url_for('detail', name=item.name) }}">
+        <div class="box">
+          <div class="box-inner">
+            <h2>{{ item.name }}</h2>
+            <!-- <p>{{ item.description }}</p> -->
+            <p>Year: {{ item.year }}</p>
+            <p>Address: {{ item.address }}</p>
+          </div>
+        </div>
+      </a>
       {% endfor %}
       <div id="page">
-        {% if current_page > 1 %}
-        <a href="{{ url_for('list', page=current_page-1, searchquery=searchquery) }}">이전</a>
-        {% else %}
-        <a href="{{ url_for('list', page=1, searchquery=searchquery) }}">이전</a>
-        {% endif %}
-        {% for i in range(start, end) %}
-        <span><a href="{{ url_for('list', page=i, searchquery=searchquery) }}">{{i}}</a></span>
-        {% endfor %}
-        {% if current_page < total %} <a href="{{ url_for('list', page=current_page+1, searchquery=searchquery) }}">다음</a>
+        <ul class="pagination">
+          {% if current_page > 1 %}
+          <a href="{{ url_for('list', page=current_page-1, searchquery=searchquery) }}"><li id="prev"><span><span class="material-symbols-outlined" style="color: white;">
+            arrow_back_ios
+          </span></span></li></a>
           {% else %}
-          <a href="{{ url_for('list', page=total, searchquery=searchquery) }}">다음</a>
+          <a href="{{ url_for('list', page=1, searchquery=searchquery) }}"><li id="prev"><span><span class="material-symbols-outlined" style="color: white;">
+            arrow_back_ios
+          </span></span></li></a>
           {% endif %}
+          {% for i in range(start, end) %}
+          <a href="{{ url_for('list', page=i, searchquery=searchquery) }}"><li><span>{{i}}</span></li></a>
+          {% endfor %}
+          {% if current_page < total %} 
+          <a href="{{ url_for('list', page=current_page+1, searchquery=searchquery) }}"><li id="next"><span><span class="material-symbols-outlined" style="color: white;">
+            arrow_forward_ios
+          </span></span></li></a>
+          {% else %}
+          <a href="{{ url_for('list', page=total, searchquery=searchquery) }}"><li id="next"><span><span class="material-symbols-outlined" style="color: white;">
+            arrow_forward_ios
+          </span></span></li></a>
+          {% endif %}
+        </ul>
       </div>
     </div>
   </main>
@@ -111,7 +168,7 @@
   <script>
     let form = document.search;
     let query = document.getElementById("searchquery")
-    
+
     document.getElementById("submit").onclick = function () {
       if (query.value == null || query.value.replace(" ", "") == '') {
         query.setCustomValidity("검색어를 넣어주세요");
@@ -121,7 +178,45 @@
       }
     }
   </script>
+  <script>
+    let queryString = window.location.search;
+    let urlParams = new URLSearchParams(queryString);
+    let currentPage = parseInt(urlParams.get('page'));
+    
+    console.log(currentPage)
 
+    let liEliments = document.querySelectorAll('#page li')
+
+    console.log(liEliments)
+
+    liEliments.forEach(function (liElement) {
+      let spanElement = liElement.querySelector('span');
+      let pageValue = parseInt(spanElement.textContent);
+
+       if (pageValue === currentPage) {
+        liElement.classList.add('current');
+      }
+    })
+    // document.addEventListener('DOMContentLoaded', function () {
+    //     // 현재 페이지의 쿼리스트링에서 'page' 값을 가져옵니다.
+        
+    //     // 모든 li 요소를 선택합니다.
+
+
+    //     // 각 li 요소를 반복하면서 현재 페이지와 값을 비교하여 current 클래스를 추가합니다.
+    //     liElements.forEach(function (liElement) {
+    //       var spanElement = liElement.querySelector('span');
+    //       var aElement = spanElement.querySelector('a');
+    //       var pageValue = parseInt(aElement.textContent);
+
+    //       console.log(liElement, pageValue, currentPage)
+
+    //       if (pageValue === currentPage) {
+    //         liElement.classList.add('current');
+    //       }
+    //     });
+    //   });
+  </script>
 
 
 

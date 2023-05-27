@@ -1,8 +1,10 @@
+import json
 from backend import application
 from flask import request, render_template, redirect, url_for, jsonify, session
-from backend.views import print_geo_value, get_api_total, add_member, validate_member, validate_ID, validate_PW, account_Check, create_api_data, update_api_data
+from backend.views import get_geo_value ,create_comment ,print_geo_value, get_api_total, add_member, validate_member, validate_ID, validate_PW, account_Check, create_api_data, update_api_data
 from firebase_admin import db
 from datetime import datetime
+import math
 
 @application.route('/', methods=['GET'])
 def index():
@@ -12,24 +14,120 @@ def index():
     # else:
     #     return render_template('home.html')
 
+@application.route('/get-sesstion', methods=['GET'])
+def get_sesstion():
+    id = session['id']
+    if(id):
+        return id
+    else:
+        return None
+
 @application.route('/around', methods=['POST'])
 def around():
     address = request.form['address']
+    
     if address:
-        top = print_geo_value(address)
-        return render_template('around.html', item=top)
+        # 기존 세션 주소와 비교
+        if 'address' in session and session['address'] == address:
+            # 주소가 이미 세션에 저장된 주소와 동일한 경우
+            top = session['top']
+        else:
+            # 주소가 새로운 경우
+            top = print_geo_value(address)
+            # 세션에 주소와 결과 저장
+            session['address'] = address
+            session['top'] = top
     else:
         return redirect('/')
+    
+    return render_template('around.html', item=top)
+    # address = request.form['address']
+    # if address:
+    #     top = print_geo_value(address)
+    #     return render_template('around.html', item=top)
+    # else:
+    #     return redirect('/')
     #return print_geo_value()
 
 @application.route('/detail', methods=['GET'])
 def detail():
     name = request.args.get('name')
-    name = str(name).replace('/', '_').replace('(', '_').replace(')', '_').replace('.', '_').replace('$', '_').replace('#', '_').replace('[', '_').replace(']', '_')
+    # lat = request.args.get('lat')
+    # lng = request.args.get('lng')
+
+    processed_name = str(name).replace('/', '_').replace('(', '_').replace(')', '_').replace('.', '_').replace('$', '_').replace('#', '_').replace('[', '_').replace(']', '_')
+    # name = str(name).replace('/', '_').replace('(', '_').replace(')', '_').replace('.', '_').replace('$', '_').replace('#', '_').replace('[', '_').replace(']', '_')
+    print(processed_name)
     ref = db.reference('piece')
-    piece = ref.order_by_child('name').equal_to(name).get()
-    print(piece)
-    return render_template('detail.html', piece=piece)
+    # piece = ref.order_by_child('year').equal_to(str(processed_name)).get()
+    piece = ref.order_by_child('year')
+    result = []
+    snapshot = piece.get()
+    for key, value in snapshot.items():
+        if key == processed_name:
+            address = value['address']
+            geo_value = get_geo_value(str(address))
+            if geo_value:
+                value['lat'] = geo_value['lat']
+                value['lng'] = geo_value['lng']
+            else:
+                value['lat'] = str(None)
+                value['lng'] = str(None)
+            result.append(value)
+
+    comment_list = []
+    ref2 = db.reference('comment')
+    comments = ref2.order_by_child('time').get()
+    if comments is not None:
+        for comment_key, comment_value in comments.items():
+            if comment_value['piece'] == name:
+                time_string = comment_value['time']
+                time_obj = datetime.fromisoformat(time_string)
+                formatted_time = time_obj.strftime('%Y년 %m월 %d일 %H시 %M분')
+                comment_value['formatted_time'] = formatted_time
+                comment_list.append(comment_value)
+    
+    keys = ref2.order_by_key().get()
+    if keys is not None:
+        total = len(keys)
+    else:
+        total = 0
+
+    return render_template('detail.html', piece=result, comment=comment_list, total=total)
+
+@application.route('/comment', methods=['POST'])
+def comment():
+    name = request.form['name']
+    comment_content = request.form['comment_content']
+    person = request.form['person']
+
+    create_comment(name, comment_content, person)
+
+    return redirect(url_for('detail', name=name))
+
+@application.route('/delete-comment', methods=['POST'])
+def delete_comment():
+    data = json.loads(request.data)  # 요청의 JSON 데이터를 파싱합니다.
+    person = data.get('person')  # person 값을 가져옵니다.
+    time = data.get('time')  # time 값을 가져옵니다.
+    piece = data.get('piece')  # piece 값을 가져옵니다.
+
+    ref = db.reference('comment')
+    comment = ref.get()
+
+    comment_key = None
+
+    for key, value in comment.items():
+        if value['time'] == time and value['person'] == person and value['piece'] == piece:
+            comment_key = key
+
+    print(comment_key, person, time, piece)
+
+    if(comment_key):
+        ref.child(comment_key).delete()    
+
+    return redirect(url_for('detail', name=piece))
+
 
 @application.route('/quiz', methods=['GET'])
 def quiz():

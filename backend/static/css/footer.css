@@ -82,6 +82,7 @@ svg {
 } */
 
 footer {
+    z-index: 9995;
     background-color: #22263f;
 }
 

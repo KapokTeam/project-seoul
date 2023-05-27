@@ -81,7 +81,7 @@ main h1 {
     75% {transform: translateX(8px);}
 } */
 
-@media only screen and (max-width: 767px) {
+@media only screen and (max-width: 768px) {
     main h1 {
         font-size: 8vw;
     }
@@ -125,7 +125,7 @@ main h1 {
     }
 }
 
-@media only screen and (min-width: 768px) and (max-width: 1023px) {
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
     main h1 {
         font-size: 6vw;
     }

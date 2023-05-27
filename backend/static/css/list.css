@@ -419,6 +419,57 @@ header>ul {
     color: white;
 }
 
+.box {
+    transition: 0.25s;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 600px;
+    padding: 5px;
+    border: 2px solid #b78846;
+    box-sizing: border-box;
+    margin: 2vw auto;
+}
+
+.box:before,
+.box:after {
+    content: "•";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    font-size: 14px;
+    color: #b78846;
+    border: 2px solid #b78846;
+    line-height: 12px;
+    top: 5px;
+    text-align: center;
+}
+
+.box:before {
+    left: 5px;
+}
+
+.box:after {
+    right: 5px;
+}
+
+.box-inner>h2,
+.box-inner>p {
+    color: white;
+}
+
+.box-inner {
+    position: relative;
+    border: 2px solid #b78846;
+    padding: 40px;
+}
+
+.box,
+.box-inner {
+    color: #b78846;
+    border: 2px solid #b78846;
+}
+
 /* 모바일 기기 */
 /* @media only screen and (max-width: 767px) {
     #popup-box {

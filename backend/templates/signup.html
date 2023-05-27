@@ -242,7 +242,7 @@
         id.setCustomValidity("");
         if (id.value.trim() !== "") {
           if (id.value.length >= 8 && id.value.length <= 15) {
-              if (alphanumericRegex.test(input.value)) {
+              if (alphanumericRegex.test(id.value)) {
                 const data = { id: id.value };
 
                 fetch('/checkid', {

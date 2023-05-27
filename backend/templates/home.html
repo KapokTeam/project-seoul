@@ -400,15 +400,20 @@
     let isAddressOpen = false;
     let button = document.getElementById('submit');
 
-    let aopen = false
-
     addressInput.addEventListener("click", function () {
       if (!isAddressOpen) {
         isAddressOpen = true;
         new daum.Postcode({
-          oncomplete: function (data) {
-            console.log(data);
-            addressInput.value = data.autoJibunAddress;
+          oncomplete: function (data) {            
+            if (data.jibunAddress) {
+              addressInput.value = data.jibunAddress;
+            } else if (data.autoJibunAddress) {
+              addressInput.value = data.autoJibunAddress;
+            } else {
+              // Handle case when both jibunAddress and autoJibunAddress are empty
+              // You can display an error message or handle it in any other way
+            }
+
             isAddressOpen = false;
           },
         }).open();

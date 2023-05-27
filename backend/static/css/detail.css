@@ -93,8 +93,6 @@ form>textarea {
     font-size: 1vw;
 }
 
-form>button {}
-
 .comment-list {
     margin: 1vw auto;
     width: 100%;
@@ -103,8 +101,6 @@ form>button {}
     border-radius: 10px;
     padding: 2vw;
 }
-
-.comment-list-box {}
 
 .comment-list-box>p {
     margin: 0vw;

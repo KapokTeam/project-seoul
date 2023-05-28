@@ -330,7 +330,7 @@
           email.reportValidity();
 
           return false;
-        } else if (nickname.value.trim() !== "" && !emailRegex.test(email.value)) {
+        } else if (email.value.trim() !== "" && !emailRegex.test(email.value)) {
           email.setCustomValidity("올바른 이메일 형식을 입력해주세요.");
           email.reportValidity();
 

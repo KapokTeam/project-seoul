@@ -178,8 +178,17 @@
 
             const id = document.getElementById("id");
             const password = document.getElementById("password");
+            const email = document.getElementById("email")
+            const emailRegex = /^[\w.-]+@[a-zA-Z_-]+?\.[a-zA-Z]{2,3}$/;
             const data = { pw: password.value };
 
+            if (email.value.replace(" ", "").length > 40) {
+                email.setCustomValidity("올바른 이메일 형식을 입력해주세요.");
+                email.reportValidity();
+
+                return false;
+            }
+            
             try {
                 const response = await fetch('/checkpw', {
                     method: 'POST',

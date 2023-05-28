@@ -2,7 +2,8 @@
 <html lang="en">
 
 <head>
-  <title>Home</title>
+  <title>Street Gallery</title>
+  <link rel="icon" href="../static/img/logo/favicon2.ico">
   <link rel="stylesheet" href="../static/css/home.css">
   <link rel="stylesheet" href="../static/css/header.css">
   <link rel="stylesheet" href="../static/css/footer.css">
@@ -49,18 +50,18 @@
   <header>
     <ul>
       <a href="{{ url_for('index') }}" id="logo-container">
-        <li><img src="../static/img/YellowBF.png" alt="" id="logo"></li>
+        <li><img src="../static/img/PublicArt.png" alt="" id="logo"></li>
       </a>
     </ul>
     <ul>
       <a href="{{ url_for('list') }}">
-        <li>Art List</li>
+        <li>작품목록</li>
       </a>
       <a href="{{ url_for('quiz') }}">
-        <li>Quiz</li>
+        <li>퀴즈</li>
       </a>
       <a href="{{ url_for('patch') }}">
-        <li>Patch</li>
+        <li>패치노트</li>
       </a>
     </ul>
     {% if session["nickname"] %}
@@ -69,16 +70,16 @@
         <li>{{session["nickname"]}}</li>
       </a>
       <a href="{{ url_for('logout') }}">
-        <li>Logout</li>
+        <li>로그아웃</li>
       </a>
     </ul>
     {% else %}
     <ul>
       <a href="{{ url_for('login') }}">
-        <li>Login</li>
+        <li>로그인</li>
       </a>
       <a href="{{ url_for('signup') }}">
-        <li>SignUp</li>
+        <li>회원가입</li>
       </a>
     </ul>
     {% endif %}
@@ -105,9 +106,9 @@
             </div>
           </div>
         </div>
-        <div class="swiper-slide">Slide 1</div>
-        <div class="swiper-slide">Slide 2</div>
-        <div class="swiper-slide">Slide 3</div>
+        <div class="swiper-slide" id="slide1" style="background-image: url('../static/img/slide/서울의미소.jpg'); background-size: cover; background-position: center;" alt="본 저작물은 서울특별시에서 2016년 작성하여 공공누리 제4유형으로 개방한 '서울의 미소(담당부서:디자인정책과)'을 이용하였으며, 해당 저작물은 서울특별시 홈페이지 'https://news.seoul.go.kr/culture/archives/77451?listPage=2'에서 무료로 다운받으실 수 있습니다."><span>서울의미소</span></div>
+        <div class="swiper-slide" id="slide2" style="background-image: url('../static/img/slide/회귀.jpg'); background-size: cover; background-position: center;" alt="본 저작물은 서울특별시에서 2016년 작성하여 공공누리 제4유형으로 개방한 '회귀(담당부서:디자인정책과)'을 이용하였으며, 해당 저작물은 서울특별시 홈페이지 'https://news.seoul.go.kr/culture/archives/77444?listPage=2'에서 무료로 다운받으실 수 있습니다."><span>회귀</span></div>
+        <div class="swiper-slide" id="slide3" style="background-image: url('../static/img/slide/마라톤.jpg'); background-size: cover; background-position: center;" alt="본 저작물은 서울특별시에서 2016년 작성하여 공공누리 제4유형으로 개방한 '마라톤(내일을 향하여)(담당부서:디자인정책과)'을 이용하였으며, 해당 저작물은 서울특별시 홈페이지 'https://news.seoul.go.kr/culture/archives/77386?listPage=3'에서 무료로 다운받으실 수 있습니다."><span>마라톤</span></div>
       </div>
       <!-- If we need pagination -->
       <div class="swiper-pagination"></div>
@@ -133,7 +134,7 @@
         </form>
       </div>
       <p id=search-description>
-        <h1>Haversine 공식으로 보다 정확하게 거리측정!</h1>
+        <h1 style="text-align: center;">Haversine 공식으로 <br> 보다 정확하게 거리측정!</h1>
         <div id="search-description-flex">
           <img src="../static/img/geo/220px-Law-of-haversines.svg.png" alt="">
         </div>
@@ -244,7 +245,7 @@
       <div id="content">
         <a href="{{ url_for('quiz') }}">
           <div class="contentbox" id="quiz">
-            <h2>공공미술 능력고사</h2>
+            <h2>공공미술<br>능력고사</h2>
           </div>
         </a>
         <a href="{{ url_for('list') }}">
@@ -290,8 +291,54 @@
       </div>
     </div>-->
   </main>
+  <div id="footer2" style="background-color: #f0f6f8; text-align: center; ">
+    <div style="width: 90%; margin: 0 auto;">
+      <p style="color: #5c818a;">저희 Kapok Team은 꾸준한 발전을 추구합니다.</p>
+      <p style="color: #5c818a;">만약 필요한 개선사항이나 의견이 있다면 <span style="text-decoration: underline;">seocode0@gmail.com</span>으로 문의 주세요.</p>
+    </div>
+  </div>
   <footer>
-    <div>Follow US</div>
+    <div id="footer-imgbox">
+      <img src="../static/img/PublicArt.png" alt="">
+    </div>
+    <div id="footer-sitemap">
+      <div class="footer-title">사이트맵</div>
+      <ul>
+        <a href="{{ url_for('index') }}">
+          <li>메인 (가까운 작품 검색)</li>
+        </a>
+        <a href="{{ url_for('list') }}">
+          <li>작품 목록 (전체 작품 리스트)</li>
+        </a>
+        <a href="{{ url_for('quiz') }}">
+          <li>공공미술 능력고사</li>
+        </a>
+        <a href="{{ url_for('patch') }}">
+          <li>패치노트</li>
+        </a>
+        <a href="{{ url_for('login') }}">
+          <li>로그인</li>
+        </a>
+        <a href="{{ url_for('signup') }}">
+          <li>회원가입</li>
+        </a>
+      </ul>
+    </div>
+    <div id="footer-teamsite">
+      <div class="footer-title">팀 사이트</div>
+      <ul>
+        <a href="https://github.com/KapokTeam/project-seoul">
+          <li>팀 깃허브</li>
+        </a>
+        <a href="https://github.com/seojaeohcode">
+          <li>개발자 깃허브</li>
+        </a>
+        <a href="https://www.pixiv.net/users/43918969">
+          <li>디자이너 픽시브</li>
+        </a>
+      </ul>
+    </div>
+    <!-- <div>Follow US</div>
     <div>
       <svg id="pinterest_svg" enable-background="new 0 0 56.693 56.693" id="Layer_1" version="1.1"
         viewBox="0 0 56.693 56.693" width="56.693px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
@@ -314,7 +361,7 @@
         <g />
         <g />
       </svg>
-    </div>
+    </div> -->
   </footer>
 
   <script src='https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js'></script>

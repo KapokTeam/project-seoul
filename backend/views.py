@@ -326,8 +326,8 @@ def print_geo_value(address):
         if crd2:
             dis = distance(float(current[0]), float(current[1]), float(crd2['lat']), float(crd2['lng']))
             rank.append([item['name'], item['address'], item['year'], dis, current[0], current[1]])
-        else:
-            print(str(item['name']) + ': no lat&lng')
+        # else:
+            # print(str(item['name']) + ': no lat&lng')
 
     rank.sort(key=lambda x: x[3])
     

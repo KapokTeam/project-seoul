@@ -1,1 +1,1 @@
-web: gunicorn --bind 0.0.0.0:8000 --workers 2 --threads 2 --timeout 300 --keep-alive 5 --worker-connections 500 application:application
+web: gunicorn --bind 0.0.0.0:8000 --workers 8 --threads 4 --timeout 180 --keep-alive 5 --worker-connections 1000 application:application
